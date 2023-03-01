@@ -14,6 +14,7 @@ import DiscountCarouselItem from "./DiscountCarouselItem";
 const DiscountCarousel = function () {
   return (
     <div>
+      <div></div>
       <Swiper
         effect={"coverflow"}
         grabCursor={true}

@@ -9,7 +9,13 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "my-deep-ocean": "#183461",
+        "my-deeper-ocean": "#142d51",
+        "my-soft-blue": "#a3c8ff",
+      },
+    },
   },
   variants: {
     extend: {

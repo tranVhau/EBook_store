@@ -10,7 +10,7 @@ export default function Home() {
       {/* Discount List */}
       <DiscountCarousel />
       {/* Book Items */}
-      <div className="grid grid-cols-4 px-28 gap-y-16 bg-gray-100">
+      <div className="grid grid-cols-4 px-28 py-20 gap-y-16 bg-gray-100 transition duration-700 ease-in-out">
         <BookCard />
         <BookCard />
         <BookCard />
