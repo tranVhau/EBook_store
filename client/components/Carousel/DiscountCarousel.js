@@ -1,4 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
+import CountDown from "../CountDown/CountDown";
 
 // Import Swiper styles
 import "swiper/css";
@@ -13,83 +14,86 @@ import DiscountCarouselItem from "./DiscountCarouselItem";
 
 const DiscountCarousel = function () {
   return (
-    <div>
-      <div></div>
-      <Swiper
-        effect={"coverflow"}
-        grabCursor={true}
-        centeredSlides={true}
-        slidesPerView={3}
-        coverflowEffect={{
-          rotate: 0,
-          stretch: 0,
-          depth: 60,
-          modifier: 5,
-          slideShadows: true,
-        }}
-        breakpoints={{
-          640: {
-            slidesPerView: 1,
-          },
-          768: {
-            slidesPerView: 3,
-          },
-          1024: {
-            slidesPerView: 3,
-          },
-        }}
-        autoplay={{
-          delay: 3000,
-          disableOnInteraction: false,
-        }}
-        loop={true}
-        pagination={{
-          dynamicBullets: true,
-        }}
-        modules={[EffectCoverflow, Pagination, Autoplay]}
-        className="my-10"
-      >
-        <SwiperSlide>
-          <div>
-            <DiscountCarouselItem image="https://swiperjs.com/demos/images/nature-1.jpg" />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <DiscountCarouselItem image="https://swiperjs.com/demos/images/nature-2.jpg" />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <DiscountCarouselItem image="https://swiperjs.com/demos/images/nature-3.jpg" />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <DiscountCarouselItem image="https://swiperjs.com/demos/images/nature-4.jpg" />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <DiscountCarouselItem image="https://swiperjs.com/demos/images/nature-5.jpg" />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <DiscountCarouselItem image="https://swiperjs.com/demos/images/nature-6.jpg" />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <DiscountCarouselItem image="https://swiperjs.com/demos/images/nature-7.jpg" />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div>
-            <DiscountCarouselItem image="https://swiperjs.com/demos/images/nature-8.jpg" />
-          </div>
-        </SwiperSlide>
-      </Swiper>
+    <div className="py-10">
+      <div className="text-3xl font-tiltwrap text-center">Weekly Discount</div>
+      <CountDown></CountDown>
+      <div className="py-10">
+        <Swiper
+          effect={"coverflow"}
+          grabCursor={true}
+          centeredSlides={true}
+          slidesPerView={3}
+          coverflowEffect={{
+            rotate: 0,
+            stretch: 0,
+            depth: 60,
+            modifier: 5,
+            slideShadows: true,
+          }}
+          breakpoints={{
+            640: {
+              slidesPerView: 1,
+            },
+            768: {
+              slidesPerView: 3,
+            },
+            1024: {
+              slidesPerView: 3,
+            },
+          }}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+          loop={true}
+          pagination={{
+            dynamicBullets: true,
+          }}
+          modules={[EffectCoverflow, Pagination, Autoplay]}
+          className=""
+        >
+          <SwiperSlide>
+            <div>
+              <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div>
+              <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div>
+              <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div>
+              <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div>
+              <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div>
+              <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div>
+              <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div>
+              <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
+            </div>
+          </SwiperSlide>
+        </Swiper>
+      </div>
     </div>
   );
 };

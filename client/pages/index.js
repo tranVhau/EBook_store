@@ -1,4 +1,5 @@
 import DiscountCarousel from "@/components/Carousel/DiscountCarousel";
+import IntroduceSection from "@/components/introduce/IntroduceSection";
 import BookCard from "@/components/product/BookCard";
 import Carousel from "../components/Carousel/Carousel";
 
@@ -6,7 +7,11 @@ export default function Home() {
   return (
     <>
       {/* Introduce Panel  */}
-      <Carousel />
+      {/* <Carousel /> */}
+      {/* Introduce */}
+
+      <IntroduceSection />
+
       {/* Discount List */}
       <DiscountCarousel />
       {/* Book Items */}

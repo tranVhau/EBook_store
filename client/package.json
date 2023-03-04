@@ -11,6 +11,7 @@
   "dependencies": {
     "@next/font": "13.1.6",
     "@smakss/react-scroll-direction": "^1.0.4",
+    "@svgr/webpack": "^6.5.1",
     "eslint": "8.34.0",
     "eslint-config-next": "13.1.6",
     "moment": "^2.29.4",

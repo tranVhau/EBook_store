@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
@@ -14,6 +15,9 @@ module.exports = {
         "my-deep-ocean": "#183461",
         "my-deeper-ocean": "#142d51",
         "my-soft-blue": "#a3c8ff",
+      },
+      fontFamily: {
+        tiltwrap: ["Tilt Warp", "cursive"],
       },
     },
   },

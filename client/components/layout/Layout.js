@@ -8,7 +8,7 @@ function Layout(props) {
   const [scrollDir] = useDetectScroll({});
 
   return (
-    <div className="">
+    <div>
       {
         <div
           className={`${
@@ -19,7 +19,7 @@ function Layout(props) {
           <MainNaviagtionBar />
         </div>
       }
-      <main>{props.children}</main>
+      <main className="py-16">{props.children}</main>
       <Footer />
     </div>
   );
