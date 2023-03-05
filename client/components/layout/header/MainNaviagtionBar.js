@@ -2,16 +2,16 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import logo from "../../../public/images/3B00K_free-file.png";
-import UserIcon from "../../../public/svgs/user.svg";
-import SearchIcon from "../../../public/svgs/search.svg";
-import CartIcon from "../../../public/svgs/shopping-cart.svg";
+import logo from "@/public/images/3B00K_free-file.png";
+import UserIcon from "@/public/svgs/user.svg";
+import SearchIcon from "@/public/svgs/search.svg";
+import CartIcon from "@/public/svgs/shopping-cart.svg";
 
 function MainNaviagtionBar() {
   return (
     <header className="bg-gradient-to-r from-my-deep-ocean to-my-deeper-ocean px-4 lg:px-6 py-2.5">
       <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl font-semibold ">
-        <Link href="/" class="flex items-center">
+        <Link href="/" className="flex items-center">
           <Image src={logo} className="mr-2 h-20 w-full sm:h-9" alt="Logo" />
         </Link>
         <ul className="p-3 text-my-soft-blue ">

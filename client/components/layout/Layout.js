@@ -13,13 +13,13 @@ function Layout(props) {
         <div
           className={`${
             scrollDir !== "down" ? "translate-y-0" : "-translate-y-full"
-          } fixed z-10 w-full ease-in-out duration-500`}
+          } fixed z-50 w-full ease-in-out duration-500`}
         >
           {/* <AlertCross /> */}
           <MainNaviagtionBar />
         </div>
       }
-      <main className="py-16">{props.children}</main>
+      <main className="py-16 ">{props.children}</main>
       <Footer />
     </div>
   );

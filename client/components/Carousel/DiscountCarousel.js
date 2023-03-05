@@ -14,7 +14,7 @@ import DiscountCarouselItem from "./DiscountCarouselItem";
 
 const DiscountCarousel = function () {
   return (
-    <div className="py-10">
+    <div className="py-11">
       <div className="text-3xl font-tiltwrap text-center">Weekly Discount</div>
       <CountDown></CountDown>
       <div className="py-10">
