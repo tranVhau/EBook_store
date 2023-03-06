@@ -17,7 +17,7 @@ export default function CountDown() {
 
   return (
     <div className="flex relative justify-center my-1 ">
-      <div className="p-3 border-orange-600 border-4 rounded-2xl">
+      {/* <div className="p-3 border-orange-600 border-4 rounded-2xl">
         <div className="px-5 inline-block py-6 mx-1 bg-yellow-200 ">
           <span className="font-bold text-4xl">
             {formatNumber(moment.duration(duration).days())}
@@ -45,7 +45,7 @@ export default function CountDown() {
       </div>
       <div className="absolute font-tiltwrap px-5 text-lg bg-white bottom-0 translate-y-3 text-center">
         Left
-      </div>
+      </div> */}
     </div>
   );
 }
