@@ -6,7 +6,7 @@ function EBookDetail() {
     <section className="text-gray-700 body-font overflow-hidden bg-white">
       <div className="container px-5 py-6 mx-auto">
         <div className="lg:w-4/5 mx-auto flex flex-wrap">
-          <div className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200">
+          <div className="lg:w-1/2 w-full h-screen overflow-y-auto overflow-x-hidden object-center rounded border ">
             <PDFSection />
           </div>
           <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
