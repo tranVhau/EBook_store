@@ -21,7 +21,7 @@ function BookCard() {
             src="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80"
           />
           <div className="hidden group-hover:block ">
-            <div className=" absolute font-semibold border-2 border-gray-800 bottom-2 right-1/2 transform translate-x-1/2 bg-slate-800 text-white py-2 text-center px-6 w-48 rounded-md cursor-pointer hover:text-gray-800 hover:bg-white duration-500">
+            <div className=" absolute font-tiltwrap border-2 border-gray-800 bottom-2 right-1/2 transform translate-x-1/2 bg-slate-800 text-white py-2 text-center px-6 w-48 rounded-md cursor-pointer hover:text-gray-800 hover:bg-white duration-500">
               Add To Cart
             </div>
           </div>

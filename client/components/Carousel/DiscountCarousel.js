@@ -16,7 +16,7 @@ const DiscountCarousel = function () {
   return (
     <div className="py-11">
       <div className="text-3xl font-tiltwrap text-center">Weekly Discount</div>
-      <CountDown></CountDown>
+      <CountDown />
       <div className="py-10">
         <Swiper
           effect={"coverflow"}

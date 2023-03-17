@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -7,14 +7,45 @@ import UserIcon from "@/public/svgs/user.svg";
 import SearchIcon from "@/public/svgs/search.svg";
 import CartIcon from "@/public/svgs/shopping-cart.svg";
 
+import { useDispatch } from "react-redux";
+import { toggleCart } from "@/store/slices/cartSlice";
+import { toggleAuthModal } from "@/store/slices/accountSlice";
+
 function MainNaviagtionBar() {
+  const dispatch = useDispatch();
+
+  const [isSearch, setSearchState] = useState(false);
+
+  // open cart handler
+  const cartButtonHandler = () => {
+    dispatch(toggleCart());
+  };
+
+  const userButtonHandler = () => {
+    dispatch(toggleAuthModal());
+  };
+
+  const searchStateHandler = () => {
+    setSearchState(!isSearch);
+  };
+  const searchStateToFlase = () => {
+    if (isSearch) setSearchState(!isSearch);
+  };
+
+  const searchHandler = (e) => {
+    e.stopPropagation();
+  };
   return (
-    <header className="bg-gradient-to-r from-my-deep-ocean to-my-deeper-ocean px-4 lg:px-6 py-2.5">
+    <header
+      onClick={searchStateToFlase}
+      className="bg-gradient-to-r from-my-deep-ocean to-my-deeper-ocean px-4 lg:px-6 py-2.5"
+    >
       <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl font-semibold ">
         <Link href="/" className="flex items-center">
           <Image src={logo} className="mr-2 h-20 w-full sm:h-9" alt="Logo" />
         </Link>
-        <ul className="p-3 text-my-soft-blue ">
+
+        <ul className={`p-3 text-my-soft-blue  ${!isSearch ? "" : "hidden"} `}>
           <li
             className=" px-5 mx-1 inline-block
                 relative
@@ -142,15 +173,30 @@ function MainNaviagtionBar() {
             About Us
           </li>
         </ul>
+        <div
+          className={`p-1 relative w-1/3 font-normal ${
+            isSearch ? "" : "hidden"
+          } `}
+        >
+          <div className=" absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+            <SearchIcon className="" />
+          </div>
+          <input
+            onClick={searchHandler}
+            type="text"
+            className="px-3 bg-gray-50 w-full text-gray-900 text-base font-tiltwrap rounded-full pl-10 p-2  "
+            placeholder="Search"
+          />
+        </div>
 
         <div>
-          <button href="#" className="mx-5">
+          <button onClick={searchStateHandler} className="mx-5">
             <SearchIcon className="fill-slate-400 hover:fill-orange-400 ease-in-out duration-300" />
           </button>
-          <button href="#" className="mx-5">
+          <button onClick={userButtonHandler} className="mx-5">
             <UserIcon className="fill-slate-400 hover:fill-orange-400 ease-in-out duration-300" />
           </button>
-          <button href="#" className="mx-5">
+          <button onClick={cartButtonHandler} className="mx-5">
             <CartIcon className="fill-slate-400 hover:fill-orange-400 ease-in-out duration-300" />
           </button>
         </div>

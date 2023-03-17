@@ -1,17 +1,18 @@
 import React from "react";
 
 import RightArrowIcon from "../../public/svgs/arrow-small-right.svg";
+import DropDownIcon from "@/public/svgs/drop-down.svg";
 
 function IntroduceSection() {
   return (
     <div className=" bg-gradient-to-r from-my-deep-ocean to-my-deeper-ocean ">
-      <div className="grid  grid-cols-8 gap-y-10 justify-items-center h-[80vh]">
+      <div className="relative grid grid-cols-8 gap-y-10 justify-items-center h-[92vh]">
         <div className="col-span-5 font-tiltwrap text-5xl text-gray-100 leading-tight self-center">
           <span> Buy Your Favourite eBooks </span>
           <br />
           <span>With Special Discount.</span>
           <div className="my-10 translate-x-5">
-            <ul className="text-base font-sans list-disc text-my-soft-blue">
+            <ul className="text-lg font-sans list-disc text-my-soft-blue">
               <li>Easy Payment with Paypal </li>
               <li>Save Money Weekly With Special Discounts </li>
               <li>Extra 10% Off For The First Purchase</li>
@@ -26,9 +27,12 @@ function IntroduceSection() {
 
         <div className="col-span-2 self-end ] ">
           <img
-            className=" object-cover rounded-t-md h-[66vh]"
+            className=" object-cover rounded-t-md h-[80vh] "
             src="https://res.cloudinary.com/dy9g317c9/image/upload/v1677773448/ebook_web/images/ebook-banner_suxwlf.webp"
           ></img>
+        </div>
+        <div className="absolute bottom-2 cursor-pointer">
+          <DropDownIcon className="fill-slate-300 w-36" />
         </div>
       </div>
     </div>

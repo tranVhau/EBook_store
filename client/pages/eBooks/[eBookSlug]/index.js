@@ -52,7 +52,7 @@ function EBookDetail() {
                 </span>{" "}
                 $58.00
               </span>
-              <button className="flex ml-auto border-orange-500 border-2 text-white font-bold bg-orange-500   py-2 px-6 focus:outline-none hover:bg-white hover:text-orange-600 ease-out duration-500 rounded">
+              <button className="flex ml-auto font-tiltwrap border-gray-800 border-2 text-white bg-gray-800 py-2 px-6 focus:outline-none hover:bg-white hover:text-gray-800 ease-out duration-500 rounded">
                 Add To Cart
               </button>
             </div>
