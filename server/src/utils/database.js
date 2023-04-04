@@ -3,12 +3,12 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const conn = mongoose
-  .connect(process.env.URI, {
+  .connect(process.env.URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("connected to mongoDB");
+    console.log("connected to database");
   })
   .catch((error) => {
     console.log(`on mongoDB connected: ${error}`);
