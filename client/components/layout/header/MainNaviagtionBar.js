@@ -45,7 +45,11 @@ function MainNaviagtionBar() {
           <Image src={logo} className="mr-2 h-20 w-full sm:h-9" alt="Logo" />
         </Link>
 
-        <ul className={`p-3 text-my-soft-blue  ${!isSearch ? "" : "hidden"} `}>
+        <ul
+          className={`p-3 text-my-soft-blue select-none  ${
+            !isSearch ? "" : "hidden"
+          } `}
+        >
           <li
             className=" px-5 mx-1 inline-block
                 relative

@@ -10,7 +10,7 @@ function IntroduceSection() {
         <div className="col-span-5 font-tiltwrap text-5xl text-gray-100 leading-tight self-center">
           <span> Buy Your Favourite eBooks </span>
           <br />
-          <span>With Special Discount.</span>
+          <span>With Special Discounts.</span>
           <div className="my-10 translate-x-5">
             <ul className="text-lg font-sans list-disc text-my-soft-blue">
               <li>Easy Payment with Paypal </li>
