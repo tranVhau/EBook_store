@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
-const GenreEBook = new mongoose.Schema({
-  genres: { type: mongoose.Schema.Types.ObjectId, ref: "Genres" },
-  EBook: { type: mongoose.Schema.Types.ObjectId, ref: "EBooks" },
+const GenreEBookSchema = new mongoose.Schema({
+  genre: { type: mongoose.Schema.Types.ObjectId, ref: "Genre" },
+  ebook: { type: mongoose.Schema.Types.ObjectId, ref: "EBook" },
 });
 
-const GenresEBooks = mongoose.model("GenresEBook", GenreEBook);
+const GenresEBooks = mongoose.model("GenresEBook", GenreEBookSchema);
 module.exports = GenresEBooks;

@@ -1,11 +1,9 @@
 const mongoose = require("mongoose");
-const slug = require("mongoose-slug-generator");
-
-mongoose.plugin(slug);
 
 const AuthorSchema = new mongoose.Schema({
   name: { type: String, require: true },
+  ebooks: { type: mongoose.Schema.Types.ObjectId, ref: "Ebooks" },
 });
 
-const Authors = mongoose.model("Authors", AuthorSchema);
-module.exports(Authors);
+const Authors = mongoose.model("Author", AuthorSchema);
+module.exports = Authors;
