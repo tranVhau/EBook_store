@@ -8,8 +8,10 @@ const middleware = require("../controllers/Middleware.controller");
 
 //FOR EBOOKS
 router.get("/ebook/:id", EBookController.get);
-router.get("/ebooks", middleware.verifyToken, EBookController.index);
+// router.get("/ebooks", middleware.verifyToken, EBookController.index);
+router.get("/ebooks", EBookController.index);
 router.post("/ebook", EBookController.store);
+router.delete("/ebookdel", EBookController.deleteEbook);
 
 //FOR GENRES
 router.get("/genres", GenreController.index);

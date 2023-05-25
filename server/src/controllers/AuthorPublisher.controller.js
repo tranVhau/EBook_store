@@ -2,7 +2,7 @@ const { Authors, Publishers } = require("../models");
 
 const authorIndexes = async (req, res) => {
   const authors = await Authors.find();
-  res.status(200).json({ author: authors });
+  res.status(200).json(authors);
 };
 
 const publisherIndexes = async (req, res) => {

@@ -29,9 +29,16 @@ const store = async (req, res) => {
 };
 
 const index = async (req, res) => {
+  const genres = req.query.genre || null;
+  const author = req.query.author || null;
+  const page = req.query.page > 0 ? req.query.page : 1;
+  const keyword = req.query.keyword || null;
+  const isASC = req.query.sort == "asc" ? true : false;
+  const limit = 8;
+
   //customize image link
   function getImgSource(pdfSource) {
-    const configStr = "w_600,h_400,c_fill,pg_1,c_pad";
+    const configStr = "w_400,h_600,c_fill,b_auto,pg_1,c_pad";
     const start = pdfSource.indexOf("upload/") + 7;
     // add config
     const configedIMG = pdfSource
@@ -39,8 +46,42 @@ const index = async (req, res) => {
       .concat(configStr, "/", pdfSource.slice(start, -4), ".png");
     return configedIMG;
   }
-  // associate all genres
-  await EBooks.aggregate([
+
+  //author pipeline:
+  const authorPipeline = author && {
+    author: author,
+  };
+
+  // genres filter
+  const genrePipeline = genres && {
+    genres: {
+      $all: genres,
+    },
+  };
+
+  // search filter
+  const searchPineline = {
+    $match: {
+      $text: { $search: keyword },
+    },
+  };
+  if (keyword) {
+    pipeline.unshift(searchPineline);
+  }
+
+  // pipeline.push(sortPineline);
+
+  //pipeline aggregate
+  const pipeline = [
+    {
+      $lookup: {
+        from: "authors",
+        localField: "author",
+        foreignField: "_id",
+        as: "author",
+      },
+    },
+
     {
       $lookup: {
         from: "genresebooks",
@@ -49,6 +90,7 @@ const index = async (req, res) => {
         as: "Ebook",
       },
     },
+
     {
       $lookup: {
         from: "genres",
@@ -57,6 +99,7 @@ const index = async (req, res) => {
         as: "genres",
       },
     },
+
     {
       $addFields: {
         image: {
@@ -69,16 +112,48 @@ const index = async (req, res) => {
       },
     },
     {
+      $unwind: "$author",
+    },
+    {
       $project: {
-        Ebook: 0,
+        name: 1,
+        price: {
+          $toDouble: "$price",
+        },
+        description: 1,
+        image: 1,
+        source: 1,
+        author: "$author.name",
+        genres: "$genres.name",
+        created_at: 1,
+        updated_at: 1,
       },
     },
-  ])
+
+    {
+      $match: {
+        ...genrePipeline,
+        ...authorPipeline,
+      },
+    },
+    {
+      $sort: { price: isASC ? 1 : -1 },
+    },
+    {
+      $skip: (page - 1) * limit,
+    },
+    {
+      $limit: limit,
+    },
+  ];
+
+  // console.log(pipeline.$match.genres);
+  // associate all genres
+  await EBooks.aggregate(pipeline)
     .then((result) => {
       res.status(200).json(result);
     })
     .catch((err) => res.status(400).json(err.message));
-  // res.json(genreEbook);
 };
 
 const get = async (req, res) => {
@@ -87,6 +162,15 @@ const get = async (req, res) => {
       {
         $match: { _id: new mongoose.Types.ObjectId(req.params.id) },
       },
+      {
+        $lookup: {
+          from: "authors",
+          localField: "author",
+          foreignField: "_id",
+          as: "author",
+        },
+      },
+
       {
         $lookup: {
           from: "genresebooks",
@@ -103,13 +187,29 @@ const get = async (req, res) => {
           as: "genres",
         },
       },
+
       {
-        $project: { Ebook: 0 },
+        $unwind: "$author",
+      },
+
+      {
+        $project: {
+          name: 1,
+          price: {
+            $toDouble: "$price",
+          },
+          description: 1,
+          source: 1,
+          author: "$author.name",
+          genres: 1,
+          created_at: 1,
+          updated_at: 1,
+        },
       },
     ]);
 
     ebook
-      ? res.status(200).json({ ebook: ebook })
+      ? res.status(200).json(ebook)
       : res.status(404).json({ message: "ebook not found" });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -118,7 +218,19 @@ const get = async (req, res) => {
 
 const deleteEbook = async (req, res) => {
   try {
-  } catch (error) {}
+    const id = "6432cbdc592977ac80e62381";
+    const prices = 20;
+    // const ebook = await EBooks.findByIdAndUpdate(id, { price: prices });
+    const ebooks = await EBooks.find({ price: null });
+
+    ebooks.forEach(async (ebook) => {
+      ebook.price = 20.99;
+      await ebook.save();
+    });
+    res.status(200).json(ebooks);
+  } catch (error) {
+    res.status(200).json(error);
+  }
 };
 
 const update = async (req, res) => {};

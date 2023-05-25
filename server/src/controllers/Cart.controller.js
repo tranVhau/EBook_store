@@ -1,14 +1,49 @@
 const mongoose = require("mongoose");
 const { Carts } = require("../models");
 
+//customize image link
+function getImgSource(pdfSource) {
+  const configStr = "w_400,h_600,c_fill,b_auto,pg_1,c_pad";
+  const start = pdfSource.indexOf("upload/") + 7;
+  // add config
+  const configedIMG = pdfSource
+    .slice(0, start)
+    .concat(configStr, "/", pdfSource.slice(start, -4), ".png");
+  return configedIMG;
+}
+// for update cart status (reused in all controllers)
+const updateCartStatus = (user_id, res) => {
+  Carts.findOne({ userID: user_id })
+    .populate({
+      path: "items",
+      model: "EBook",
+      select: "name author price author source",
+      populate: { path: "author", model: "Author", select: "name" },
+    })
+    .lean()
+    .then((cart) => {
+      let amount = 0;
+      cart.items.forEach((item) => {
+        item.author = item.author.name;
+        item.price = +item.price;
+        item.image = getImgSource(item.source);
+        amount += item.price;
+      });
+
+      cart.subtotal = amount;
+      res.status(200).json(cart);
+    })
+    .catch((err) => res.status(500).json(err));
+};
+
 // Get all cart item from specific user ID":
 const getCart = async (req, res) => {
   try {
     const user_id = req.params.id;
-    const cart = await Carts.findOne({ userID: user_id });
+    // const cart = await Carts.findOne({ userID: user_id });
 
-    // const cart = await Carts.findOne({ userID: user_id }).populate("ebooks");
-    res.status(200).json({ cart: cart.items });
+    updateCartStatus(user_id, res);
+    // res.status(200).json({ cart: cart });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -41,8 +76,7 @@ const addToCart = async (req, res) => {
 
     await existCart_2.save();
 
-    const cart = await Carts.findOne({ userID: user_id });
-    res.status(200).json(cart);
+    updateCartStatus(user_id, res);
   } catch (error) {
     res.status(200).json({ message: error.message });
   }
@@ -51,15 +85,18 @@ const addToCart = async (req, res) => {
 // Just update the cart
 const removeFromCart = async (req, res) => {
   try {
-    const user_cart = req.body.user_id;
+    const user_id = req.body.user_id;
     const item = req.body.item;
-    const cart = await Carts.findOne({ userID: user_cart });
+    const cart = await Carts.findOne({ userID: user_id });
     const update_cart = cart.items.filter((cart_item) => cart_item != item);
     cart.items = update_cart;
     cart.save();
 
-    res.status(201).json(cart);
-  } catch (error) {}
+    updateCartStatus(user_id, res);
+    // res.status(201).json(cart);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 //remove all item but still keep the cart
