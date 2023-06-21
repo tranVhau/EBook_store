@@ -12,25 +12,28 @@ function getImgSource(pdfSource) {
   return configedIMG;
 }
 // for update cart status (reused in all controllers)
-const updateCartStatus = (user_id, res) => {
-  Carts.findOne({ userID: user_id })
+const updateCartStatus = async (user_id, res) => {
+  await Carts.findOne({ userID: user_id })
     .populate({
       path: "items",
       model: "EBook",
-      select: "name author price author source",
+      select: "name author price author source discount",
       populate: { path: "author", model: "Author", select: "name" },
     })
     .lean()
     .then((cart) => {
       let amount = 0;
+      let discountValue = 0;
       cart.items.forEach((item) => {
         item.author = item.author.name;
         item.price = +item.price;
         item.image = getImgSource(item.source);
         amount += item.price;
+        discountValue += (item.price * item.discount) / 100;
       });
 
-      cart.subtotal = amount;
+      cart.subtotal = amount.toFixed(2);
+      cart.totalDiscount = discountValue.toFixed(2);
       res.status(200).json(cart);
     })
     .catch((err) => res.status(500).json(err));
@@ -40,7 +43,13 @@ const updateCartStatus = (user_id, res) => {
 const getCart = async (req, res) => {
   try {
     const user_id = req.params.id;
-    // const cart = await Carts.findOne({ userID: user_id });
+
+    //create new cart with empty item
+    const existCart = await Carts.findOne({ userID: user_id });
+    if (!existCart) {
+      const cart = new Carts({ userID: user_id, items: new Array() });
+      await cart.save();
+    }
 
     updateCartStatus(user_id, res);
     // res.status(200).json({ cart: cart });
@@ -55,8 +64,7 @@ const addToCart = async (req, res) => {
   const user_id = new mongoose.Types.ObjectId(req.body.user_id);
   try {
     const existCart = await Carts.findOne({ userID: user_id });
-    // create a cart with empty
-
+    // create a cart with no item
     if (!existCart) {
       const cart = new Carts({ userID: user_id, items: new Array() });
       await cart.save();
@@ -68,7 +76,7 @@ const addToCart = async (req, res) => {
     // refind the existed cart have created above
     const existCart_2 = await Carts.findOne({ userID: user_id });
 
-    items_arr.forEach((item) => {
+    items_arr.map((item) => {
       if (!existCart_2.items.includes(new mongoose.Types.ObjectId(item))) {
         existCart_2.items.push(new mongoose.Types.ObjectId(item));
       }
@@ -90,7 +98,7 @@ const removeFromCart = async (req, res) => {
     const cart = await Carts.findOne({ userID: user_id });
     const update_cart = cart.items.filter((cart_item) => cart_item != item);
     cart.items = update_cart;
-    cart.save();
+    await cart.save();
 
     updateCartStatus(user_id, res);
     // res.status(201).json(cart);

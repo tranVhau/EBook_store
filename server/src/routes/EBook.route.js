@@ -4,7 +4,7 @@ const EBookController = require("../controllers/EBook.controller");
 const GenreController = require("../controllers/Genre.controller");
 const AuthorPublisherController = require("../controllers/AuthorPublisher.controller");
 
-const middleware = require("../controllers/Middleware.controller");
+const middleware = require("../middlewares/Auth.middleware");
 
 //FOR EBOOKS
 router.get("/ebook/:id", EBookController.get);

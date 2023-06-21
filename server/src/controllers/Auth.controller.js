@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const { Users, Tokens } = require("../models");
 const cookie = require("cookie-parser");
+const { request } = require("express");
 
 // genarate accesstoken
 const genarateAccessToken = (user) => {
@@ -33,9 +34,26 @@ const storeRefreshRoken = async (newRefreshToken, userID, res) => {
   });
 
   // store in cookie
+
   res.cookie("refreshToken", newRefreshToken, {
+    maxAge: process.env.COOKIE_AGE * 1000,
     httpOnly: true,
   });
+};
+
+const me = async (req, res) => {
+  try {
+    const id = req.user.id;
+    const user = await Users.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "user not found" });
+    } else {
+      const { password, ...me } = user._doc;
+      res.status(200).json({ data: me });
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 const register = async (req, res) => {
@@ -48,11 +66,19 @@ const register = async (req, res) => {
         password: hash,
         phone: req.body.phone,
       });
-      newUser.save();
-      res.status(200).json({ newUser });
+      newUser
+        .save()
+        .then((user) => {
+          res.status(200).json({ data: user });
+        })
+        .catch((err) => {
+          if (err.name === "MongoServerError" && err.code === 11000) {
+            res.status(422).json({ message: "email already been taken" });
+          }
+        });
     });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json(error.message);
   }
 };
 
@@ -60,11 +86,11 @@ const login = async (req, res) => {
   try {
     const user = await Users.findOne({ email: req.body.email });
     if (!user) {
-      res.status(404).json({ message: "email not found" });
+      return res.status(404).json({ message: "wrong email or password" });
     }
     bcrypt.compare(req.body.password, user.password, async (err, result) => {
       if (!result) {
-        res.status(404).json({ message: "wrong password" });
+        res.status(404).json({ message: "wrong email or password" });
       }
 
       if (result && user) {
@@ -76,7 +102,7 @@ const login = async (req, res) => {
         await storeRefreshRoken(refreshToken, user.id, res);
 
         const { password, created_at, updated_at, ...login_info } = user._doc;
-        res.status(200).json({ login_info, accessToken });
+        res.status(200).json({ data: login_info, accessToken });
       }
     });
   } catch (error) {
@@ -109,7 +135,6 @@ const refresh = async (req, res) => {
         currRefreshToken,
         existToken.token,
         async (err, result) => {
-          console.log(result);
           if (!result) {
             return res.status(404).json("token is invalid");
           }
@@ -129,8 +154,42 @@ const refresh = async (req, res) => {
     }
   );
 };
+
+const logout = async (req, res) => {
+  try {
+    const currentRefreshToken = req.cookies.refreshToken;
+
+    res.clearCookie("refreshToken");
+    const tokens = await Tokens.find({});
+    const tokenLength = tokens.length - 1;
+    if (tokens[0]) {
+      tokens.forEach((tokenField, index) => {
+        bcrypt.compare(
+          currentRefreshToken,
+          tokenField.token,
+          async (error, result) => {
+            if (result) {
+              await Tokens.deleteOne({ token: tokenField.token });
+              res.status(200).json({ message: "logout successfully" });
+            } else {
+              if (index === tokenLength) {
+                res.status(404).json({ message: "you were not loged in" });
+              }
+            }
+          }
+        );
+      });
+    } else {
+      res.status(404).json({ message: "you were not loged in" });
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
 module.exports = {
+  me,
   login,
   register,
   refresh,
+  logout,
 };

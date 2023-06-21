@@ -7,4 +7,6 @@ module.exports = {
   Publishers: require("./publisher/Publisher.model"),
   Tokens: require("./account/Token.model"),
   Carts: require("./cart/Cart.model"),
+  Orders: require("./payment/Order.model"),
+  OrdersItems: require("./payment/OrderItems.model"),
 };

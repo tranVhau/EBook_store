@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const uploadSingleImage = upload.single("pdfFile");
 
 const store = async (req, res) => {
-  uploadSingleImage(req, res, function (err) {
+  uploadSingleImage(req, res, async function (err) {
     if (err) {
       return res.status(400).json({ message: err.message });
     }
@@ -14,9 +14,10 @@ const store = async (req, res) => {
       name: req.body.name,
       description: req.body.description,
       source: req.file.path,
+      discount: req.body.discount,
     });
     try {
-      ebook.save();
+      await ebook.save();
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
@@ -29,7 +30,7 @@ const store = async (req, res) => {
 };
 
 const index = async (req, res) => {
-  const genres = req.query.genre || null;
+  let genres = req.query.genres || null;
   const author = req.query.author || null;
   const page = req.query.page > 0 ? req.query.page : 1;
   const keyword = req.query.keyword || null;
@@ -53,21 +54,15 @@ const index = async (req, res) => {
   };
 
   // genres filter
+
+  if (!Array.isArray(genres) && genres) {
+    genres = [genres];
+  }
   const genrePipeline = genres && {
     genres: {
       $all: genres,
     },
   };
-
-  // search filter
-  const searchPineline = {
-    $match: {
-      $text: { $search: keyword },
-    },
-  };
-  if (keyword) {
-    pipeline.unshift(searchPineline);
-  }
 
   // pipeline.push(sortPineline);
 
@@ -123,6 +118,7 @@ const index = async (req, res) => {
         description: 1,
         image: 1,
         source: 1,
+        discount: 1,
         author: "$author.name",
         genres: "$genres.name",
         created_at: 1,
@@ -146,6 +142,16 @@ const index = async (req, res) => {
       $limit: limit,
     },
   ];
+
+  // search filter
+  const searchPineline = {
+    $match: {
+      $text: { $search: keyword },
+    },
+  };
+  if (keyword) {
+    pipeline.unshift(searchPineline);
+  }
 
   // console.log(pipeline.$match.genres);
   // associate all genres
@@ -209,7 +215,7 @@ const get = async (req, res) => {
     ]);
 
     ebook
-      ? res.status(200).json(ebook)
+      ? res.status(200).json({ ebook: ebook[0] })
       : res.status(404).json({ message: "ebook not found" });
   } catch (error) {
     res.status(400).json({ message: error.message });

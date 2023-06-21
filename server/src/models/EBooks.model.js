@@ -8,6 +8,7 @@ const EBookSchema = new mongoose.Schema(
     price: {
       type: mongoose.Types.Decimal128,
     },
+    discount: { type: Number },
     author: { type: mongoose.Schema.Types.ObjectId, ref: "Author" },
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
