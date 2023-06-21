@@ -14,10 +14,14 @@ import DiscountCarouselItem from "./DiscountCarouselItem";
 
 const DiscountCarousel = function () {
   return (
-    <div className="py-11">
-      <div className="text-3xl font-tiltwrap text-center">Weekly Discount</div>
-      <CountDown />
-      <div className="py-10">
+    <div className="py-10">
+      <div className="">
+        <div className="text-3xl font-tiltwrap text-center text-my-deeper-ocean">
+          Weekly Discount
+        </div>
+        <CountDown />
+      </div>
+      <div className="py-10 ">
         <Swiper
           effect={"coverflow"}
           grabCursor={true}

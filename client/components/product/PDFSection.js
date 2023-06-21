@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
+import Spinner from "../ui/loading/Spinner";
+
 const PDFSection = React.memo(({ url }) => {
   const [numPages, setNumPages] = useState(null);
 
@@ -12,8 +14,13 @@ const PDFSection = React.memo(({ url }) => {
   return (
     <Document
       file={{
-        url: "https://res.cloudinary.com/dy9g317c9/image/upload/v1670107206/document_web/document/zqcfgkjfq4iwglrhwafo.pdf",
+        url,
       }}
+      loading={
+        <div className="flex justify-center place-items-center w-full h-screen">
+          <Spinner />
+        </div>
+      }
       onLoadSuccess={onDocumentLoadSuccess}
     >
       {Array.from(new Array(numPages), (el, index) => (
@@ -22,5 +29,7 @@ const PDFSection = React.memo(({ url }) => {
     </Document>
   );
 });
+
+PDFSection.displayName = "PDFSection";
 
 export default PDFSection;

@@ -1,18 +1,32 @@
 import "@/styles/globals.css";
+import "react-toastify/dist/ReactToastify.css";
+import { store, persistor } from "@/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { ToastContainer } from "react-toastify";
 import Layout from "../components/layout/Layout";
 
 import { Provider } from "react-redux";
-import { wrapper } from "../store/index";
 
-function App({ Component, ...rest }) {
-  const { store, props } = wrapper.useWrappedStore(rest);
-  const { pageProps } = props;
-
+function App({ Component, pageProps }) {
   return (
     <Provider store={store}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <PersistGate loading={null} persistor={persistor}>
+        <Layout>
+          <Component {...pageProps} />
+          <ToastContainer
+            position="top-center"
+            autoClose={4000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+        </Layout>
+      </PersistGate>
     </Provider>
   );
 }

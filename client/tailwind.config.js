@@ -19,8 +19,15 @@ module.exports = {
       fontFamily: {
         tiltwrap: ["Tilt Warp", "cursive"],
       },
+      backgroundImage: {
+        "my-bg": "url('/images/my-bg-ebooks.png')",
+        "my-bg-countdown": "url('/images/my-bg-countdown.png')",
+        "my-bg-discount": "url('/images/my-bg-discount.png')",
+        "my-bg-no_result": "url('/images/my-bg-no_result_found.png')",
+      },
     },
   },
+
   variants: {
     extend: {
       visibility: ["group-hover"],

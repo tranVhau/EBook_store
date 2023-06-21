@@ -1,15 +1,44 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { createWrapper } from "next-redux-wrapper";
-import { cartSlice } from "./slices/cartSlice";
-import { accountSlice } from "./slices/accountSlice";
+// import { createWrapper } from "next-redux-wrapper";
 
-const makeStore = () =>
-  configureStore({
-    reducer: {
-      [cartSlice.name]: cartSlice.reducer,
-      [accountSlice.name]: accountSlice.reducer,
-    },
-    devTools: true,
-  });
+import storage from "redux-persist/lib/storage";
+import { combineReducers } from "redux";
 
-export const wrapper = createWrapper(makeStore);
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+
+import cartReducer from "./features/reducers/cartSlice";
+import authReducer from "./features/reducers/authSlice";
+import thunk from "redux-thunk";
+
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const rootReducer = combineReducers({
+  cart: cartReducer,
+  auth: authReducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+
+export let persistor = persistStore(store);

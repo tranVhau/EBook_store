@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 import RightArrowIcon from "../../public/svgs/arrow-small-right.svg";
 import DropDownIcon from "@/public/svgs/drop-down.svg";
@@ -26,10 +27,14 @@ function IntroduceSection() {
         </div>
 
         <div className="col-span-2 self-end ] ">
-          <img
-            className=" object-cover rounded-t-md h-[80vh] "
+          <Image
+            alt="banner image"
+            className="w-full object-cover rounded-t-md h-[80vh] "
+            width="0"
+            height="0"
+            sizes="100vw"
             src="https://res.cloudinary.com/dy9g317c9/image/upload/v1677773448/ebook_web/images/ebook-banner_suxwlf.webp"
-          ></img>
+          />
         </div>
         <div className="absolute bottom-2 cursor-pointer">
           <DropDownIcon className="fill-slate-300 w-36" />

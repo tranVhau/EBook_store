@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -7,18 +8,33 @@ import UserIcon from "@/public/svgs/user.svg";
 import SearchIcon from "@/public/svgs/search.svg";
 import CartIcon from "@/public/svgs/shopping-cart.svg";
 
-import { useDispatch } from "react-redux";
-import { toggleCart } from "@/store/slices/cartSlice";
-import { toggleAuthModal } from "@/store/slices/accountSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleCart } from "@/store/features/reducers/cartSlice";
+import { addToCart, getCart } from "@/store/features/actions/cart.action";
+import { toggleAuthModal } from "@/store/features/reducers/authSlice";
 
-function MainNaviagtionBar() {
+function MainNavigationBar() {
   const dispatch = useDispatch();
-
+  const { currUser } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.auth);
   const [isSearch, setSearchState] = useState(false);
+  const router = useRouter();
 
   // open cart handler
   const cartButtonHandler = () => {
     dispatch(toggleCart());
+    //merge item(pre-login and login),
+    if (currUser) {
+      // dispatch(getCart(currUser.data._id));
+      if (cartItems) {
+        //get the list of id and add to user's Cart
+        const itemArr = cartItems.map((item) => item._id);
+        dispatch(addToCart({ user_id: currUser.data._id, items: itemArr }));
+        dispatch(getCart(currUser.data._id));
+      } else {
+        dispatch(getCart(currUser.data._id));
+      }
+    }
   };
 
   const userButtonHandler = () => {
@@ -33,8 +49,26 @@ function MainNaviagtionBar() {
   };
 
   const searchHandler = (e) => {
-    e.stopPropagation();
+    if (e.key === "Enter") {
+      router.push({
+        pathname: "/eBooks",
+        query: { keyword: e.target.value },
+      });
+      e.target.value = "";
+    }
   };
+
+  const toBottomHandler = () => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
+  };
+
+  const toLastestHandler = () => {
+    // lastesPos.current.scrollIntoView();
+  };
+
   return (
     <header
       onClick={searchStateToFlase}
@@ -90,7 +124,7 @@ function MainNaviagtionBar() {
                 hover:before:w-16
                 hover:text-cyan-50"
           >
-            Products
+            Ebooks
           </li>
           <li
             className=" px-5 mx-1 inline-block
@@ -110,11 +144,13 @@ function MainNaviagtionBar() {
                  before:bg-blue-500
                 hover:before:w-16
                 hover:text-cyan-50"
+            onClick={toLastestHandler}
           >
-            Popular
+            Lastest
           </li>
+
           <li
-            className=" px-5 mx-1 inline-block
+            className=" group px-5 mx-1 inline-block
                 relative
                 cursor-pointer
                 transition-all
@@ -132,10 +168,28 @@ function MainNaviagtionBar() {
                 hover:before:w-16
                 hover:text-cyan-50"
           >
-            Categories
+            Genres
+            <ul className="absolute w-max hidden font-tiltwrap text-md text-my-deep-ocean  pt-6 group-hover:block ">
+              <li className="">
+                <p className="rounded-t bg-slate-200  hover:bg-my-soft-blue py-2 px-4 block whitespace-no-wrap">
+                  One
+                </p>
+              </li>
+              <li className="">
+                <p className="bg-slate-200  hover:bg-my-soft-blue py-2 px-4 block whitespace-no-wrap">
+                  Two
+                </p>
+              </li>
+              <li className="">
+                <p className="rounded-b bg-slate-200  hover:bg-my-soft-blue py-2 px-4 block whitespace-no-wrap">
+                  Three is the magic number
+                </p>
+              </li>
+            </ul>
           </li>
+
           <li
-            className=" px-5 mx-1 inline-block
+            className="group px-5 mx-1 inline-block
                 relative
                 cursor-pointer
                 transition-all
@@ -154,9 +208,26 @@ function MainNaviagtionBar() {
                 hover:text-cyan-50"
           >
             Authors
+            <ul className="absolute w-max hidden font-tiltwrap text-md text-my-deep-ocean  pt-6 group-hover:block ">
+              <li className="">
+                <p className="rounded-t bg-slate-200  hover:bg-my-soft-blue py-2 px-4 block whitespace-no-wrap">
+                  One
+                </p>
+              </li>
+              <li className="">
+                <p className="bg-slate-200  hover:bg-my-soft-blue py-2 px-4 block whitespace-no-wrap">
+                  Two
+                </p>
+              </li>
+              <li className="">
+                <p className="rounded-b bg-slate-200  hover:bg-my-soft-blue py-2 px-4 block whitespace-no-wrap">
+                  Three is the magic number
+                </p>
+              </li>
+            </ul>
           </li>
           <li
-            className=" px-5 mx-1 inline-block
+            className="px-5 mx-1 inline-block
                 relative
                 cursor-pointer
                 transition-all
@@ -173,6 +244,7 @@ function MainNaviagtionBar() {
                  before:bg-blue-500
                 hover:before:w-16
                 hover:text-cyan-50"
+            onClick={toBottomHandler}
           >
             About Us
           </li>
@@ -186,7 +258,10 @@ function MainNaviagtionBar() {
             <SearchIcon className="" />
           </div>
           <input
-            onClick={searchHandler}
+            onKeyDown={searchHandler}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
             type="text"
             className="px-3 bg-gray-50 w-full text-gray-900 text-base font-tiltwrap rounded-full pl-10 p-2  "
             placeholder="Search"
@@ -209,4 +284,4 @@ function MainNaviagtionBar() {
   );
 }
 
-export default MainNaviagtionBar;
+export default MainNavigationBar;

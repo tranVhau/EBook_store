@@ -16,28 +16,28 @@ export default function CountDown() {
   const formatNumber = (num) => (num > 9 ? "" + num : "0" + num); // format time (ex: 4=>04)
 
   return (
-    <div className="flex relative justify-center my-1 ">
+    <div className="flex relative justify-center my-1">
       <div className="p-3 border-orange-600 border-4 rounded-2xl">
-        <div className="px-5 inline-block py-6 mx-1 bg-yellow-200 ">
-          <span className="font-bold text-4xl">
+        <div className="px-5 inline-block py-4 mx-1 bg-yellow-200 ">
+          <span className="font-bold text-3xl">
             {formatNumber(moment.duration(duration).days())}
           </span>
           <span className="block text-center text-sm">DAYS</span>
         </div>
-        <div className="px-5 inline-block py-6 mx-1 bg-yellow-200 ">
-          <span className="font-bold text-4xl">
+        <div className="px-5 inline-block py-4 mx-1 bg-yellow-200 ">
+          <span className="font-bold text-3xl">
             {formatNumber(moment.duration(duration).hours())}
           </span>
           <span className="block text-center text-sm">HRS</span>
         </div>
-        <div className="px-5 inline-block py-6 mx-1 bg-yellow-200 ">
-          <span className="font-bold text-4xl">
+        <div className="px-5 inline-block py-4 mx-1 bg-yellow-200 ">
+          <span className="font-bold text-3xl">
             {formatNumber(moment.duration(duration).minutes())}
           </span>
           <span className="block text-center text-sm">MINS</span>
         </div>
-        <div className="px-5 inline-block py-6 mx- bg-yellow-200 ">
-          <span className="font-bold text-4xl">
+        <div className="px-5 inline-block py-4 mx- bg-yellow-200 ">
+          <span className="font-bold text-3xl">
             {formatNumber(moment.duration(duration).seconds())}
           </span>
           <span className="block text-center text-sm">SECS</span>
