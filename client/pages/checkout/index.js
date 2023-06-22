@@ -8,7 +8,7 @@ import ButtonWrapper from "@/components/ui/checkout/ButtonWrapper";
 import ArrowIcon from "@/public/svgs/show-more.svg";
 import DoneIcon from "@/public/svgs/check.svg";
 
-function Index() {
+function Checkout() {
   const { cartItems, total, totalDiscount } = useSelector(
     (state) => state.cart
   );
@@ -134,4 +134,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default Checkout;
