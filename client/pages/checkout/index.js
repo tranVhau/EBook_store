@@ -7,9 +7,8 @@ import HorizonBookCart from "@/components/product/HorizonBookCart";
 import ButtonWrapper from "@/components/ui/checkout/ButtonWrapper";
 import ArrowIcon from "@/public/svgs/show-more.svg";
 import DoneIcon from "@/public/svgs/check.svg";
-import { dropCart } from "@/store/features/actions/cart.action";
 
-function index() {
+function Index() {
   const { cartItems, total, totalDiscount } = useSelector(
     (state) => state.cart
   );
@@ -135,4 +134,4 @@ function index() {
   );
 }
 
-export default index;
+export default Index;

@@ -1,5 +1,5 @@
 const { mongoose } = require("mongoose");
-const { Orders, OrdersItems } = require("../models");
+const { Orders, OrdersItems, EBooks } = require("../models");
 const emailSender = require("../utils/emailSender");
 
 // transaction.
@@ -25,22 +25,29 @@ const newOrder = async (req, res) => {
         discount: obj.discount,
       };
     });
+
     orderItemInfo.forEach(async (item) => {
       const order_item = new OrdersItems({
         ...item,
       });
       await order_item.save();
     });
+
+    const itemArr = items.map((item) => item._id);
+    const itemInfo = await EBooks.find().where("_id").in(itemArr).exec();
+    const resource = itemInfo.map((info) => ({
+      name: info.name,
+      url: info.source,
+    }));
+    await emailSender(email, resource);
     session.commitTransaction();
-    res.status(201).json({ message: "successfully" });
+    res.status(201).json({ message: "thank you for your purchase" });
   } catch (error) {
     session.abortTransaction();
     res.status(500).json({ message: "failed" });
   } finally {
     session.endSession();
   }
-  const response = await emailSender(email, "abc");
-  res.json(response);
 };
 
 module.exports = { newOrder };
