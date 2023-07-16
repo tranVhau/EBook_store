@@ -1,7 +1,7 @@
 const { EBooks, GenresEBooks } = require("../models");
-const { upload } = require("../utils/cloudinary");
+const { upload } = require("../configs/cloudinary");
+const { getImgSource } = require("../utils/ebooks.util");
 const mongoose = require("mongoose");
-
 const uploadSingleImage = upload.single("pdfFile");
 
 const store = async (req, res) => {
@@ -36,17 +36,6 @@ const index = async (req, res) => {
   const keyword = req.query.keyword || null;
   const isASC = req.query.sort == "asc" ? true : false;
   const limit = 8;
-
-  //customize image link
-  function getImgSource(pdfSource) {
-    const configStr = "w_400,h_600,c_fill,b_auto,pg_1,c_pad";
-    const start = pdfSource.indexOf("upload/") + 7;
-    // add config
-    const configedIMG = pdfSource
-      .slice(0, start)
-      .concat(configStr, "/", pdfSource.slice(start, -4), ".png");
-    return configedIMG;
-  }
 
   //author pipeline:
   const authorPipeline = author && {
@@ -136,10 +125,10 @@ const index = async (req, res) => {
       $sort: { price: isASC ? 1 : -1 },
     },
     {
-      $skip: (page - 1) * limit,
-    },
-    {
-      $limit: limit,
+      $facet: {
+        pagination: [{ $count: "total" }],
+        data: [{ $skip: (page - 1) * limit }, { $limit: limit }],
+      },
     },
   ];
 
@@ -157,7 +146,17 @@ const index = async (req, res) => {
   // associate all genres
   await EBooks.aggregate(pipeline)
     .then((result) => {
-      res.status(200).json(result);
+      // const totalPage = result.length;
+
+      if (result[0].data.length > 0) {
+        result[0].pagination[0].total = Math.ceil(
+          result[0].pagination[0].total / limit
+        );
+
+        result[0].pagination[0].page = Number(page);
+        result[0].pagination = result[0].pagination[0];
+      }
+      res.status(200).json(...result);
     })
     .catch((err) => res.status(400).json(err.message));
 };
@@ -193,7 +192,17 @@ const get = async (req, res) => {
           as: "genres",
         },
       },
-
+      {
+        $addFields: {
+          image: {
+            $function: {
+              body: getImgSource,
+              args: ["$source"],
+              lang: "js",
+            },
+          },
+        },
+      },
       {
         $unwind: "$author",
       },
@@ -204,8 +213,10 @@ const get = async (req, res) => {
           price: {
             $toDouble: "$price",
           },
+          discount: 1,
           description: 1,
           source: 1,
+          image: 1,
           author: "$author.name",
           genres: 1,
           created_at: 1,

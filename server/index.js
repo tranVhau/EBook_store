@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const database = require("./src/utils/database");
+const database = require("./src/configs/database");
 
 // const Model = require("./src/models");
 const routes = require("./src/routes");

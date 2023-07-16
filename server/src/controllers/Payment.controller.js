@@ -1,6 +1,6 @@
 const { mongoose } = require("mongoose");
 const { Orders, OrdersItems, EBooks } = require("../models");
-const emailSender = require("../utils/emailSender");
+const emailSender = require("../configs/emailSender");
 
 // transaction.
 const newOrder = async (req, res) => {
