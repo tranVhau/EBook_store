@@ -11,7 +11,7 @@ import Link from "next/link";
 export const getStaticProps = async () => {
   const newestEbooks = await ebookAPIs.getEbooks();
   return {
-    props: { ebooks: newestEbooks.data },
+    props: { ebooks: newestEbooks.data.data },
   };
 };
 

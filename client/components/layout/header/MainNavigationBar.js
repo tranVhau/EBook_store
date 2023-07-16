@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,12 +12,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleCart } from "@/store/features/reducers/cartSlice";
 import { addToCart, getCart } from "@/store/features/actions/cart.action";
 import { toggleAuthModal } from "@/store/features/reducers/authSlice";
+import filterAPIs from "@/services/api/filter.api";
 
-function MainNavigationBar() {
+function MainNavigationBar({ authors, genres }) {
   const dispatch = useDispatch();
   const { currUser } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.auth);
   const [isSearch, setSearchState] = useState(false);
+  const [menuData, setMenuData] = useState({});
   const router = useRouter();
 
   // open cart handler
@@ -65,9 +67,14 @@ function MainNavigationBar() {
     });
   };
 
-  const toLastestHandler = () => {
-    // lastesPos.current.scrollIntoView();
-  };
+  useEffect(() => {
+    const fetchNaviMenu = async () => {
+      const authors = await filterAPIs.getAuthors();
+      const genres = await filterAPIs.getGenres();
+      setMenuData({ authors: authors.data, genres: genres.data });
+    };
+    fetchNaviMenu();
+  }, []);
 
   return (
     <header
@@ -103,7 +110,7 @@ function MainNavigationBar() {
                 hover:before:w-16
                 hover:text-cyan-50"
           >
-            Home
+            <Link href={"/"}>Home</Link>
           </li>
           <li
             className=" px-5 mx-1 inline-block
@@ -124,29 +131,7 @@ function MainNavigationBar() {
                 hover:before:w-16
                 hover:text-cyan-50"
           >
-            Ebooks
-          </li>
-          <li
-            className=" px-5 mx-1 inline-block
-                relative
-                cursor-pointer
-                transition-all
-                duration-500
-                before:content-['']
-                before:absolute
-                before:-bottom-2
-                before:left-1/2
-                before:-translate-x-1/2
-                before:w-0
-                before:h-0.5
-                before:transition-all
-                before:duration-500
-                 before:bg-blue-500
-                hover:before:w-16
-                hover:text-cyan-50"
-            onClick={toLastestHandler}
-          >
-            Lastest
+            <Link href={"eBooks"}>Ebooks</Link>
           </li>
 
           <li
@@ -169,22 +154,17 @@ function MainNavigationBar() {
                 hover:text-cyan-50"
           >
             Genres
-            <ul className="absolute w-max hidden font-tiltwrap text-md text-my-deep-ocean  pt-6 group-hover:block ">
-              <li className="">
-                <p className="rounded-t bg-slate-200  hover:bg-my-soft-blue py-2 px-4 block whitespace-no-wrap">
-                  One
-                </p>
-              </li>
-              <li className="">
-                <p className="bg-slate-200  hover:bg-my-soft-blue py-2 px-4 block whitespace-no-wrap">
-                  Two
-                </p>
-              </li>
-              <li className="">
-                <p className="rounded-b bg-slate-200  hover:bg-my-soft-blue py-2 px-4 block whitespace-no-wrap">
-                  Three is the magic number
-                </p>
-              </li>
+            <ul className="absolute rounded hidden font-tiltwrap text-md text-my-deep-ocean pt-6 group-hover:block ">
+              {menuData.genres?.map((genre) => (
+                <li key={genre._id} className="">
+                  <Link
+                    href={`eBooks?genres=${genre.name}`}
+                    className=" bg-slate-200  hover:bg-my-soft-blue py-2 px-4 block whitespace-no-wrap"
+                  >
+                    {genre.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </li>
 
@@ -209,21 +189,16 @@ function MainNavigationBar() {
           >
             Authors
             <ul className="absolute w-max hidden font-tiltwrap text-md text-my-deep-ocean  pt-6 group-hover:block ">
-              <li className="">
-                <p className="rounded-t bg-slate-200  hover:bg-my-soft-blue py-2 px-4 block whitespace-no-wrap">
-                  One
-                </p>
-              </li>
-              <li className="">
-                <p className="bg-slate-200  hover:bg-my-soft-blue py-2 px-4 block whitespace-no-wrap">
-                  Two
-                </p>
-              </li>
-              <li className="">
-                <p className="rounded-b bg-slate-200  hover:bg-my-soft-blue py-2 px-4 block whitespace-no-wrap">
-                  Three is the magic number
-                </p>
-              </li>
+              {menuData.authors?.map((author) => (
+                <li key={author._id} className="">
+                  <Link
+                    href={`eBooks?author=${author.name}`}
+                    className="rounded-t bg-slate-200  hover:bg-my-soft-blue py-2 px-4 block whitespace-no-wrap"
+                  >
+                    {author.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </li>
           <li

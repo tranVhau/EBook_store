@@ -15,7 +15,7 @@ function FilterBar({ authors, genres, setFilter }) {
 
   const searchHandler = (e) => {
     if (e.key === "Enter") {
-      setFilter((prev) => ({ ...prev, keyword: e.target.value }));
+      setFilter((prev) => ({ ...prev, keyword: e.target.value, page: null }));
     }
   };
 
@@ -23,6 +23,7 @@ function FilterBar({ authors, genres, setFilter }) {
     setFilter((prev) => ({
       ...prev,
       author: e.target.value,
+      page: null,
     }));
   };
 
@@ -36,6 +37,7 @@ function FilterBar({ authors, genres, setFilter }) {
     setFilter((prev) => ({
       ...prev,
       genres: genreList,
+      page: null,
     }));
   };
 

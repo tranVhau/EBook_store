@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 import HorizonBookCart from "@/components/product/HorizonBookCart";
-import ButtonWrapper from "@/components/ui/checkout/ButtonWrapper";
+import ButtonWrapper from "@/components/ui/buttons/ButtonWrapper";
 import ArrowIcon from "@/public/svgs/show-more.svg";
 import DoneIcon from "@/public/svgs/check.svg";
 

@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 import PDFSection from "@/components/product/PDFSection";
+import DiscountIcon from "@/public/svgs/discount.svg";
+import moment from "moment";
+
+import { useSelector, useDispatch } from "react-redux";
+import { addItemToCart } from "@/store/features/reducers/cartSlice";
+import { addToCart } from "@/store/features/actions/cart.action";
 
 import ebookAPIs from "@/services/api/ebook.api";
 
@@ -17,6 +23,24 @@ export const getStaticPaths = () => {
 };
 
 function EBookDetail({ ebook }) {
+  const { currUser } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const addToCartHandler = () => {
+    if (currUser) {
+      // already loged-in
+      dispatch(addToCart({ user_id: currUser.data._id, items: [ebook._id] }));
+    } else {
+      const item = {
+        _id: ebook._id,
+        name: ebook.name,
+        image: ebook.image,
+        price: ebook.price,
+        author: ebook.author,
+        discount: ebook.discount,
+      };
+      dispatch(addItemToCart(item));
+    }
+  };
   return (
     <section className="text-gray-700 body-font overflow-hidden bg-white">
       <div className="container px-5 py-6 mx-auto">
@@ -32,33 +56,33 @@ function EBookDetail({ ebook }) {
               {ebook?.name}
             </h1>
             <h2 className="text-sm title-font text-gray-500 tracking-widest pb-2">
-              29/4/2023
+              {moment(ebook?.created_at).format("MMMM/DD/YYYY")}
             </h2>
             <div className="flex mb-4">
               <span className="flex items-center">
-                <svg
-                  fill="currentColor"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="w-4 h-4 text-red-500"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                </svg>
-                <span className="text-gray-600 ml-3">4 Reviews</span>
+                <DiscountIcon className="w-6 h-6 fill-orange-600" />
+                <span className="text-gray-600 ml-1 font-tiltwrap text-xl">
+                  {ebook?.discount}%
+                </span>
               </span>
             </div>
             <p className="leading-relaxed">{ebook?.description}</p>
             <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5"></div>
             <div className="flex">
-              <span className="title-font font-medium text-2xl text-gray-900">
-                <span className="opacity-80 text-my-deeper-ocean font-bold">
-                  Price:
+              <span className=" font-tiltwrap text-2xl text-gray-900">
+                <span className=" text-my-deeper-ocean mr-4">Price:</span>
+                <span className="line-through text-gray-500 text-base mx-2">
+                  {ebook.price}
                 </span>
-                {` $${ebook?.price}`}
+                {` $${(
+                  ebook?.price -
+                  (ebook?.price * ebook?.discount) / 100
+                ).toFixed(2)}`}
               </span>
-              <button className="flex ml-auto font-tiltwrap border-gray-800 border-2 text-white bg-gray-800 py-2 px-6 focus:outline-none hover:bg-white hover:text-gray-800 ease-out duration-500 rounded">
+              <button
+                onClick={addToCartHandler}
+                className="flex ml-auto font-tiltwrap border-gray-800 border-2 text-white bg-gray-800 py-2 px-6 focus:outline-none hover:bg-white hover:text-gray-800 ease-out duration-500 rounded"
+              >
                 Add To Cart
               </button>
             </div>

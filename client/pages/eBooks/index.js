@@ -4,13 +4,12 @@ import { useRouter } from "next/router";
 
 import BookCard from "@/components/product/BookCard";
 import FilterBar from "@/components/Filter/FilterBar";
-import ShowMoreIcon from "@/public/svgs/show-more.svg";
 import FilterResultBar from "@/components/Filter/FilterResultBar";
-// import { QueryClient } from "react-query";
 
 import filterAPIs from "@/services/api/filter.api";
 import ebookAPIs from "@/services/api/ebook.api";
 import EmptyResult from "@/components/ui/empty/EmptyResult";
+import Pagination from "@/components/ui/buttons/Pagination";
 
 export const getServerSideProps = async (context) => {
   context.res.setHeader(
@@ -24,11 +23,16 @@ export const getServerSideProps = async (context) => {
   const ebooks = await ebookAPIs.getEbooks(context.query);
 
   return {
-    props: { authors: authors.data, genres: genres.data, ebooks: ebooks.data },
+    props: {
+      authors: authors.data,
+      genres: genres.data,
+      ebooks: ebooks.data.data,
+      pagination: ebooks.data.pagination,
+    },
   };
 };
 
-function EBooks({ authors, genres, ebooks }) {
+function EBooks({ authors, genres, ebooks, pagination }) {
   const [filters, setFilter] = useState({});
   const router = useRouter();
 
@@ -61,13 +65,16 @@ function EBooks({ authors, genres, ebooks }) {
         ) : (
           <EmptyResult />
         )}
-        {ebooks[0] && (
-          <div className="flex justify-center font-semibold text-lg p-4 cursor-pointer ">
+        {
+          ebooks[0] && (
+            <Pagination pagination={pagination} setFilter={setFilter} />
+          )
+          /* <div className="flex justify-center font-semibold text-lg p-4 cursor-pointer ">
             <div className="bg-slate-800 px-4 py-2 rounded-full text-center text-slate-50 hover:shadow-lg hover:translate-x-1 hover:bg-slate-700 ease-linear duration-300">
               See More <ShowMoreIcon className="inline fill-white" />
             </div>
-          </div>
-        )}
+          </div> */
+        }
       </div>
     </div>
   );

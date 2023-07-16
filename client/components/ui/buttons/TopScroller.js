@@ -6,7 +6,7 @@ function TopScroller({ goToTop, isVisible }) {
     isVisible && (
       <div
         onClick={goToTop}
-        className=" fixed z-30 right-4 bottom-4 hover:animate-bounce"
+        className=" fixed z-30 right-4 bottom-4 p-2 cursor-pointer hover:animate-bounce"
       >
         <TopScroll className="fill-slate-500" />
       </div>

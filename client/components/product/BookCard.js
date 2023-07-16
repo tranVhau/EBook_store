@@ -2,11 +2,10 @@ import React from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { addItemToCart } from "@/store/features/reducers/cartSlice";
+import { addToCart } from "@/store/features/actions/cart.action";
 
 import Image from "next/image";
 import Link from "next/link";
-
-import { addToCart } from "@/store/features/actions/cart.action";
 
 function BookCard({ ebook }) {
   const { currUser } = useSelector((state) => state.auth);

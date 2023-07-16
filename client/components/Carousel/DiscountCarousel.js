@@ -1,5 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import CountDown from "../CountDown/CountDown";
+import Image from "next/image";
 
 // Import Swiper styles
 import "swiper/css";
@@ -21,7 +22,7 @@ const DiscountCarousel = function () {
         </div>
         <CountDown />
       </div>
-      <div className="py-10 ">
+      <div className="py-10">
         <Swiper
           effect={"coverflow"}
           grabCursor={true}
@@ -57,6 +58,16 @@ const DiscountCarousel = function () {
           className=""
         >
           <SwiperSlide>
+            <DiscountCarouselItem />
+          </SwiperSlide>
+          <SwiperSlide>
+            <DiscountCarouselItem />
+          </SwiperSlide>
+
+          <SwiperSlide>
+            <DiscountCarouselItem />
+          </SwiperSlide>
+          {/* <SwiperSlide>
             <div>
               <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
             </div>
@@ -65,37 +76,7 @@ const DiscountCarousel = function () {
             <div>
               <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
             </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div>
-              <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div>
-              <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div>
-              <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div>
-              <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div>
-              <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div>
-              <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
-            </div>
-          </SwiperSlide>
+          </SwiperSlide> */}
         </Swiper>
       </div>
     </div>
