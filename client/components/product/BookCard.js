@@ -14,7 +14,7 @@ function BookCard({ ebook }) {
   const addToCartHandler = () => {
     if (currUser) {
       // already loged-in
-      dispatch(addToCart({ user_id: currUser.data._id, items: [ebook._id] }));
+      dispatch(addToCart({ user_id: currUser._id, items: [ebook._id] }));
     } else {
       const item = {
         _id: ebook._id,
@@ -29,11 +29,11 @@ function BookCard({ ebook }) {
   };
 
   return (
-    <div className="flex w-72 z-10 items-center justify-center ">
-      <div className=" border border-gray-300 group rounded-xl overflow-hidden shadow-sm hover:shadow-2xl hover:bg-white transform duration-500 cursor-pointer">
+    <div className="flex w-full h-full z-10 items-center justify-center ">
+      <div className="border border-gray-300 group rounded-xl overflow-hidden shadow-sm hover:shadow-2xl hover:bg-white transform duration-500 cursor-pointer w-full sm:w-72">
         <div>
           {ebook?.discount !== 0 ? (
-            <span className="bg-orange-500 py-2 px-4 text-sm font-semibold text-white rounded-br-md rounded-tl-md cursor-pointer">
+            <span className="bg-orange-500 py-2 px-4 text-sm font-tiltwrap text-white rounded-br-md rounded-tl-md cursor-pointer">
               {`-${ebook?.discount}%`}
             </span>
           ) : (
@@ -84,10 +84,10 @@ function BookCard({ ebook }) {
               src={ebook?.image}
             />
           )}
-          <div className="hidden group-hover:block ">
+          <div className="hidden group-hover:block">
             <button
               onClick={addToCartHandler}
-              className=" absolute font-tiltwrap border-2 border-gray-800 bottom-2 right-1/2 transform translate-x-1/2 bg-slate-800 text-white py-2 text-center px-6 w-48 rounded-md cursor-pointer hover:text-gray-800 hover:border-2 hover:bg-white duration-500"
+              className="absolute font-tiltwrap border-2 border-gray-800 bottom-2 right-1/2 transform translate-x-1/2 bg-slate-800 text-white py-2 text-center w-full sm:w-48 rounded-md cursor-pointer hover:text-gray-800 hover:border-2 hover:bg-white duration-500"
             >
               Add To Cart
             </button>

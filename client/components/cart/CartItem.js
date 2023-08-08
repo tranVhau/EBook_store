@@ -8,10 +8,9 @@ import { removeFromCart } from "@/store/features/actions/cart.action";
 function CartItem({ item }) {
   const dispatch = useDispatch();
   const { currUser } = useSelector((state) => state.auth);
-
   const removeCartItemHandler = () => {
     if (currUser) {
-      dispatch(removeFromCart({ user_id: currUser.data._id, item: item._id }));
+      dispatch(removeFromCart({ user_id: currUser._id, item: item._id }));
     } else {
       dispatch(
         removeItemFromCart({
@@ -26,7 +25,7 @@ function CartItem({ item }) {
   return (
     <div className="mt-8">
       <div className="flow-root">
-        <ul className="-my-6 divide-y divide-gray-200">
+        <ul className="-my-6 divide-y divide-gray-200 ">
           <li className="flex py-6">
             <div className="h-36 w-28 overflow-hidden rounded-md border border-gray-200">
               <Image

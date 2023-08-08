@@ -12,9 +12,15 @@ function HorizonBookCart({ item }) {
 
   const removeCartItemHandler = () => {
     if (currUser) {
-      dispatch(removeFromCart({ user_id: currUser.data._id, item: item._id }));
+      dispatch(removeFromCart({ user_id: currUser._id, item: item._id }));
     } else {
-      dispatch(removeItemFromCart({ _id: item._id, price: item.price }));
+      dispatch(
+        removeItemFromCart({
+          _id: item._id,
+          price: item.price,
+          discount: item.discount,
+        })
+      );
     }
   };
 

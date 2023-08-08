@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/store/features/actions/auth.action";
 import Spinner from "../ui/loading/Spinner";
 
+import axios from "axios";
+
 function Login() {
   const dispatch = useDispatch();
 
@@ -43,7 +45,7 @@ function Login() {
               value={loginInfo.email}
               type="text"
               placeholder="email@email.com"
-              className="block text-sm py-3 px-3 rounded-2xl w-full border border-gray-400 font-tiltwrap"
+              className="block text-sm py-3 px-3 rounded-2xl w-full border border-gray-400 font-tiltwrap bg-slate-50 "
             />
           </div>
           <div className="relative">
@@ -53,7 +55,7 @@ function Login() {
               value={loginInfo.password}
               type="password"
               placeholder="********"
-              className="block text-sm py-3 px-3 rounded-2xl w-full border border-gray-400 font-tiltwrap"
+              className="block text-sm py-3 px-3 rounded-2xl w-full border border-gray-400 font-tiltwrap bg-slate-50 "
             />
           </div>
 
@@ -64,7 +66,7 @@ function Login() {
         <div className="text-center mt-4">
           <button
             disabled={loading}
-            className="py-2 w-64 text-lg text-white bg-gray-800 border-2 border-gray-800 hover:bg-white hover:text-gray-800 duration-500 rounded-lg"
+            className="py-2 w-full text-lg text-white bg-gray-800 border-2 border-gray-800 hover:bg-white hover:text-gray-800 duration-500 rounded-lg"
           >
             {loading ? (
               <>

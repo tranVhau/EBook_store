@@ -7,21 +7,21 @@ import { isOpenAuthdModalSelector } from "@/store/selectors";
 import Login from "./Login";
 import Register from "./Register";
 import UserBoard from "./UserBoard";
+import Spinner from "../ui/loading/Spinner";
+import { me } from "@/store/features/actions/auth.action";
 
 function Authentication() {
   const dispatch = useDispatch();
   const isOpenAuthHandler = useSelector(isOpenAuthdModalSelector);
-  const { currUser } = useSelector((state) => state.auth);
+  const { currUser, loading, isLogedIn } = useSelector((state) => state.auth);
 
   const [isLogin, setIsLogin] = useState(true);
-  const [isLogedIn, setIsLogedIn] = useState(false);
 
   useEffect(() => {
-    if (typeof window != "undefined") {
-      currUser?.accessToken ? setIsLogedIn(true) : setIsLogedIn(false);
+    if (isOpenAuthHandler) {
+      dispatch(me());
     }
-  }, [currUser]);
-
+  }, [isOpenAuthHandler]);
   const loginStatusHandler = () => {
     setIsLogin(!isLogin);
   };
@@ -31,7 +31,7 @@ function Authentication() {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full text-my-deep-ocean">
       <div
         onClick={openAuthModalHandler}
         className={`fixed top-0 left-0 w-full h-full bg-slate-900 z-30 ${
@@ -39,29 +39,33 @@ function Authentication() {
         } duration-500`}
       ></div>
       <div
-        className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1/4 font-tiltwrap min-h-screen flex justify-center items-center z-50 ${
+        className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-1/4 sm:1/2 w-2/3 font-tiltwrap min-h-screen flex justify-center items-center z-50 ${
           isOpenAuthHandler ? "" : "translate-y-full"
         } duration-500`}
       >
-        <div className="py-10 px-6 w-full rounded-md shadow-xl  bg-white">
-          {isLogedIn ? (
-            <UserBoard />
-          ) : (
-            <>
-              {isLogin ? <Login /> : <Register />}
-              <div>
-                <p className="mt-4 text-center">
-                  <span
-                    className="underline cursor-pointer text-sm"
-                    onClick={loginStatusHandler}
-                  >
-                    {isLogin ? "Create An Account" : "Login"}
-                  </span>
-                </p>
-              </div>
-            </>
-          )}
-        </div>
+        {loading ? (
+          <Spinner />
+        ) : (
+          <div className="py-10 px-6 w-full rounded-md shadow-xl  bg-white">
+            {isLogedIn ? (
+              <UserBoard />
+            ) : (
+              <>
+                {isLogin ? <Login /> : <Register />}
+                <div>
+                  <p className="mt-4 text-center">
+                    <span
+                      className="underline cursor-pointer text-sm"
+                      onClick={loginStatusHandler}
+                    >
+                      {isLogin ? "Create An Account" : "Login"}
+                    </span>
+                  </p>
+                </div>
+              </>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

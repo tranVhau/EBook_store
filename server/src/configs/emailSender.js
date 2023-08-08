@@ -7,20 +7,10 @@ const emailSender = async (email, resource) => {
     port: 465,
     secure: true,
     auth: {
-      // TODO: replace `user` and `pass` values from <https://forwardemail.net>
       user: process.env.EMAIL_SENDER,
       pass: process.env.EMAIL_PASSWORD,
     },
   });
-
-  // var transporter = nodemailer.createTransport({
-  //   host: "sandbox.smtp.mailtrap.io",
-  //   port: 2525,
-  //   auth: {
-  //     user: "1705b73d098086",
-  //     pass: "509d88d8b495df",
-  //   },
-  // });
 
   const itemUrlHTML = resource
     .map(

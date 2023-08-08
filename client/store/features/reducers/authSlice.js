@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import Notifies from "@/utils/notify.utils";
 import { login, register, me, refresh, logout } from "../actions/auth.action";
 
@@ -7,6 +6,7 @@ const initValue = {
   isOpenModal: false,
   currUser: null,
   loading: false,
+  isLogedIn: false,
   error: null,
 };
 
@@ -27,12 +27,9 @@ const authSlice = createSlice({
       state.loading = false;
       state.currUser = action.payload;
       state.isOpenModal = false;
+      console.log(action.payload);
       Notifies.success(
-        `welcome back:  ${
-          action.payload.data?.name || action.payload.data?.email
-        }🫡`,
-        undefined,
-        undefined
+        `welcome back:  ${action.payload?.name || action.payload?.email}🫡`
       );
     });
     builder.addCase(login.rejected, (state, action) => {
@@ -62,6 +59,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.currUser = null;
       state.isOpenModal = false;
+      state.isLogedIn = false;
       Notifies.success("See you soon 😭", undefined, undefined);
     });
     builder.addCase(logout.rejected, (state, action) => {
@@ -69,14 +67,18 @@ const authSlice = createSlice({
       state.error = action.payload;
       Notifies.error(`${action.payload.message} 🤨`);
     });
-
-    // builder.addCase(me.pending, (state, action) => {
-    //   state.loading = true;
-    // });
-    // builder.addCase(me.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   state.currUser = action.payload;
-    // });
+    builder.addCase(me.pending, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(me.fulfilled, (state, action) => {
+      state.isLogedIn = true;
+      state.loading = false;
+      state.currUser = action.payload;
+    });
+    builder.addCase(me.rejected, (state, action) => {
+      state.isLogedIn = false;
+      state.loading = false;
+    });
   },
 });
 

@@ -1,8 +1,18 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const cookie = require("cookie-parser");
-const dotenv = require("dotenv");
 const { Tokens } = require("../models");
+
+// convert cookie string to object
+function parseCookieString(cookieString) {
+  const cookiePairs = cookieString.split(";");
+  const cookieObject = {};
+
+  for (const pair of cookiePairs) {
+    const [key, value] = pair.trim().split("=");
+    cookieObject[key] = decodeURIComponent(value);
+  }
+  return cookieObject;
+}
 
 // genarate accesstoken
 const genarateAccessToken = (user) => {
@@ -20,7 +30,6 @@ const genarateRefreshToken = (user) => {
 };
 
 // store refeshtoken
-
 const storeRefreshRoken = async (newRefreshToken, userID, res) => {
   // find and delete current exist token
   await Tokens.findOneAndDelete({ accountID: userID });
@@ -35,14 +44,17 @@ const storeRefreshRoken = async (newRefreshToken, userID, res) => {
   });
 
   // store in cookie
-
   res.cookie("refreshToken", newRefreshToken, {
-    maxAge: process.env.COOKIE_AGE * 1000,
+    // maxAge: process.env.COOKIE_AGE * 1000,
+    domain: process.env.CLIENT_DOMAIN,
+    path: "/",
     httpOnly: true,
+    sameSite: "lax",
   });
 };
 
 module.exports = {
+  parseCookieString,
   genarateAccessToken,
   genarateRefreshToken,
   storeRefreshRoken,

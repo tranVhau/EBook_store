@@ -21,7 +21,7 @@ function UserBoard() {
     <form>
       <div>
         <h1 className="text-4xl text-center mb-8 cursor-pointer text-my-deep-ocean ">
-          {`${currUser?.data.name || currUser?.data.email}'s Profile `}
+          {`${currUser?.name || currUser?.email}'s Profile `}
         </h1>
       </div>
       <div>

@@ -18,9 +18,9 @@ export const login = createAsyncThunk(
   async (user, { rejectWithValue }) => {
     try {
       const response = await authAPIs.login(user);
-      if (response.data) {
-        await localStorage.setItem("accessToken", response.data.accessToken);
-      }
+      // if (response.data) {
+      //   await localStorage.setItem("accessToken", response.data.accessToken);
+      // }
       return response.data;
     } catch (error) {
       if (!error.response) {
@@ -51,9 +51,9 @@ export const refresh = createAsyncThunk(
   async (_, dispatch, { rejectWithValue }) => {
     try {
       const response = await authAPIs.refresh();
-      if (response.data) {
-        await localStorage.setItem("accessToken", response.data.accessToken);
-      }
+      // if (response.data) {
+      //   await localStorage.setItem("accessToken", response.data.accessToken);
+      // }
       return response.data;
     } catch (error) {
       if (!error.response) {

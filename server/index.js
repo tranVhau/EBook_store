@@ -13,13 +13,14 @@ dotenv.config();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:8080"],
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
+
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cookieParser());
 
 routes(app);
 

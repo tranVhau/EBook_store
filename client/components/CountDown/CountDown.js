@@ -3,12 +3,13 @@ import moment from "moment";
 
 export default function CountDown() {
   let [duration, setDuration] = useState();
-
+  let countDownInterval;
   useEffect(() => {
     let currDuration = duration; //avoid elint warning ;)
     setDuration(moment().day(7).hour(23).minute(59).second(10).diff(moment()));
     // caculate time fromm now until upcomming sunday(weekend), 1000ms=1s
-    setInterval(() => {
+    clearInterval(countDownInterval);
+    countDownInterval = setInterval(() => {
       setDuration((currDuration -= 1000));
     }, 1000);
   }, [duration]);
@@ -16,7 +17,7 @@ export default function CountDown() {
   const formatNumber = (num) => (num > 9 ? "" + num : "0" + num); // format time (ex: 4=>04)
 
   return (
-    <div className="flex relative justify-center my-1">
+    <div className="flex relative justify-center text-my-deeper-ocean my-1">
       <div className="p-3 border-orange-600 border-4 rounded-2xl">
         <div className="px-5 inline-block py-4 mx-1 bg-yellow-200 ">
           <span className="font-bold text-3xl">

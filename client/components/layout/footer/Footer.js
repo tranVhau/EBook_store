@@ -1,13 +1,13 @@
 import React from "react";
 import Image from "next/image";
-import logo from "@/public/images/3B00K_free-file.png";
+import Logo from "../header/Logo";
 
 function Footer() {
   return (
     <footer className="flex select-none font-tiltwrap items-center justify-center flex-col w-full bg-slate-800 h-[40vh]">
       <div className="">
         <div className=" flex items-center text-orange-600">
-          <Image src={logo} className="mr-2 h-16 w-36" alt="Logo" />
+          <Logo />
           <p className="px-4 opacity-90">
             3B00k - The eBook Online Website. <br />
             Providing variety of e-books with affordable prices

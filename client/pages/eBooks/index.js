@@ -52,15 +52,17 @@ function EBooks({ authors, genres, ebooks, pagination }) {
       <FilterBar authors={authors} genres={genres} setFilter={setFilter} />
       <FilterResultBar filters={filters} />
       <div
-        className={`bg-cover bg-center ${
-          ebooks[0] ? "bg-my-bg" : "bg-my-bg-discount"
+        className={` bg-no-repeat bg-center bg-contain  ${
+          ebooks[0] ? "bg-my-bg " : "bg-my-bg-discount"
         } `}
       >
         {ebooks[0] ? (
-          <div className="grid grid-cols-4 z-20 px-20 py-6 gap-y-16 transition duration-700 ease-in-out">
-            {ebooks.map((ebook) => (
-              <BookCard key={ebook._id} ebook={ebook} />
-            ))}
+          <div className="px-4 sm:px-10 md:px-8 lg:px-8 xl:px-32">
+            <div className="grid justify-items-center sm:grid-cols-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-2 md:gap-2 lg:gap-6 ">
+              {ebooks.map((ebook) => (
+                <BookCard key={ebook._id} ebook={ebook} />
+              ))}
+            </div>
           </div>
         ) : (
           <EmptyResult />

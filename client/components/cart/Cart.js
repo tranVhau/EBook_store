@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import Link from "next/link";
 import CancelIcon from "@/public/svgs/cancel.svg";
 
 import CartItem from "./CartItem";
@@ -76,9 +76,14 @@ function Cart() {
                       )}`}</p>
                     </div>
                     <div className="mt-6">
-                      <button className="flex w-full items-center justify-center font-tiltwrap rounded-md  border-2 border-gray-800 bg-slate-800 px-6 py-3 text-white hover:bg-white hover:text-gray-900 ease-in-out duration-500">
+                      <Link
+                        className="flex w-full items-center justify-center font-tiltwrap rounded-md  border-2 border-gray-800 bg-slate-800 px-6 py-3 text-white hover:bg-white hover:text-gray-900 ease-in-out duration-500"
+                        onClick={closeButtonHandler}
+                        href={"/checkout"}
+                      >
                         Checkout
-                      </button>
+                      </Link>
+
                       <div className="text-center"> or </div>
                       <button className="flex w-full items-center justify-center font-tiltwrap rounded-md hover:underline">
                         Drop Cart

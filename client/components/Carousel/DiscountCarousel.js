@@ -13,7 +13,7 @@ import "swiper/css/pagination";
 import { Autoplay, EffectCoverflow, Pagination } from "swiper";
 import DiscountCarouselItem from "./DiscountCarouselItem";
 
-const DiscountCarousel = function () {
+const DiscountCarousel = function ({ ebooks }) {
   return (
     <div className="py-10">
       <div className="">
@@ -47,7 +47,7 @@ const DiscountCarousel = function () {
             },
           }}
           autoplay={{
-            delay: 3000,
+            delay: 2000,
             disableOnInteraction: false,
           }}
           loop={true}
@@ -57,26 +57,11 @@ const DiscountCarousel = function () {
           modules={[EffectCoverflow, Pagination, Autoplay]}
           className=""
         >
-          <SwiperSlide>
-            <DiscountCarouselItem />
-          </SwiperSlide>
-          <SwiperSlide>
-            <DiscountCarouselItem />
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <DiscountCarouselItem />
-          </SwiperSlide>
-          {/* <SwiperSlide>
-            <div>
-              <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div>
-              <DiscountCarouselItem image="https://images.unsplash.com/photo-1571167530149-c1105da4c2c7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80" />
-            </div>
-          </SwiperSlide> */}
+          {ebooks.map((ebook) => (
+            <SwiperSlide key={ebook._id}>
+              <DiscountCarouselItem ebook={ebook} />
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
     </div>

@@ -1,10 +1,8 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
 const { Users, Tokens } = require("../models");
-const cookie = require("cookie-parser");
-const { request } = require("express");
 const {
+  parseCookieString,
   genarateAccessToken,
   genarateRefreshToken,
   storeRefreshRoken,
@@ -67,11 +65,18 @@ const login = async (req, res) => {
         const accessToken = genarateAccessToken(user);
         const refreshToken = genarateRefreshToken(user);
 
-        // store refreshtoken
+        // store refreshtoken in cookie and db
         await storeRefreshRoken(refreshToken, user.id, res);
-
+        // store accesstoken in cookie
+        res.cookie("accessToken", accessToken, {
+          maxAge: process.env.COOKIE_AGE * 1000,
+          // domain: process.env.CLIENT_DOMAIN,
+          path: "/",
+          sameSite: "lax",
+          httpOnly: true,
+        });
         const { password, created_at, updated_at, ...login_info } = user._doc;
-        res.status(200).json({ data: login_info, accessToken });
+        res.status(200).json({ data: login_info });
       }
     });
   } catch (error) {
@@ -81,7 +86,6 @@ const login = async (req, res) => {
 
 const refresh = async (req, res) => {
   const currRefreshToken = req.cookies.refreshToken;
-
   // console.log(currRefreshToken);
   if (!currRefreshToken) {
     return res.status(401).json({ message: "unauthenticated" });
@@ -114,10 +118,20 @@ const refresh = async (req, res) => {
           await storeRefreshRoken(newAccessToken, decode.id, res);
 
           res.cookie("refreshToken", newRefreshToken, {
+            domain: process.env.CLIENT_DOMAIN,
+            path: "/",
             httpOnly: true,
+            sameSite: "lax",
           });
 
-          res.status(200).json({ accessToken: newAccessToken });
+          res.cookie("accessToken", newRefreshToken, {
+            domain: process.env.CLIENT_DOMAIN,
+            path: "/",
+            httpOnly: true,
+            sameSite: "lax",
+          });
+
+          res.status(200).json({ message: "token refreshed" });
         }
       );
     }
@@ -126,11 +140,10 @@ const refresh = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    const currentRefreshToken = req.cookies.refreshToken;
-
-    res.clearCookie("refreshToken");
+    const { refreshToken } = parseCookieString(req.headers.cookie);
+    const currentRefreshToken = refreshToken;
     const tokens = await Tokens.find({});
-    const tokenLength = tokens.length - 1;
+    const tokenLength = tokens.length;
     if (tokens[0]) {
       tokens.forEach((tokenField, index) => {
         bcrypt.compare(
@@ -139,9 +152,11 @@ const logout = async (req, res) => {
           async (error, result) => {
             if (result) {
               await Tokens.deleteOne({ token: tokenField.token });
+              res.clearCookie("refreshToken");
+              res.clearCookie("accessToken");
               res.status(200).json({ message: "logout successfully" });
             } else {
-              if (index === tokenLength) {
+              if (index + 1 === tokenLength) {
                 res.status(404).json({ message: "you were not loged in" });
               }
             }
