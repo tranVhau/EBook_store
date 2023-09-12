@@ -7,6 +7,8 @@ import CartItem from "./CartItem";
 
 import { isCloseCartSelector } from "@/store/selectors";
 import { toggleCart } from "@/store/features/reducers/cartSlice";
+import { dropCart } from "@/store/features/actions/cart.action";
+import { dropItemCart } from "@/store/features/reducers/cartSlice";
 
 function Cart() {
   const dispatch = useDispatch();
@@ -14,9 +16,18 @@ function Cart() {
   const { cartItems, total, totalDiscount } = useSelector(
     (state) => state.cart
   );
+  const { currUser } = useSelector((state) => state.auth);
 
   const closeButtonHandler = () => {
     dispatch(toggleCart());
+  };
+
+  const dropCartHandler = () => {
+    if (currUser) {
+      dispatch(dropCart(currUser._id));
+    } else {
+      dispatch(dropItemCart());
+    }
   };
 
   return (
@@ -85,7 +96,10 @@ function Cart() {
                       </Link>
 
                       <div className="text-center"> or </div>
-                      <button className="flex w-full items-center justify-center font-tiltwrap rounded-md hover:underline">
+                      <button
+                        onClick={dropCartHandler}
+                        className="flex w-full items-center justify-center font-tiltwrap rounded-md hover:underline"
+                      >
                         Drop Cart
                       </button>
                     </div>

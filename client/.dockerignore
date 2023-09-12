@@ -1,0 +1,6 @@
+.gitignore
+.next/                
+.dockerignore
+# .env
+node_modules/   
+Dockekfile

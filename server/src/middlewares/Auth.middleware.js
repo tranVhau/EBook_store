@@ -52,8 +52,23 @@ const policy = (req, res, next) => {
       .messages({ "string.pattern.base": `Phone number must have 10 digits.` }),
   });
 
-  if ((req._parsedUrl.pathname = "/register")) {
+  if (req._parsedUrl.pathname == "/register") {
     const error = schema.validate({ name, email, password, phone });
+    if (error.error) {
+      return res.status(400).json({ message: error.error.details[0].message });
+    } else {
+      next();
+    }
+  } else if (req._parsedUrl.pathname == "/forgot") {
+    const schema_reset = joi.object({
+      email: Joi.string().email().required().messages({
+        "string.base": "email must be a string",
+        "string.email": "email format is invalid",
+        "any.required": "email not be empty",
+      }),
+    });
+
+    const error = schema_reset.validate({ email: email });
     if (error.error) {
       return res.status(400).json({ message: error.error.details[0].message });
     } else {

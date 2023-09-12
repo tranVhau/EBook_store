@@ -47,59 +47,52 @@ function FilterBar({ authors, genres, setFilter }) {
   };
 
   return (
-    <div className=" h-[10vh] flex items-center justify-center">
-      {/* sort button  */}
-      <div className="px-2 font-tiltwrap text-my-deeper-ocean ">
-        <div className="flex items-center justify-between">
-          <div className="bg-gray-50 border border-gray-300 text-gray-900  text-sm rounded-xl p-2 px-4 focus:ring-2 focus:outline-none focus:ring-blue-300 block">
-            <p className="inline">price:</p>
-            <select
-              onChange={sortHandler}
-              className="focus:outline-none bg-transparent px-1 inline"
-            >
-              <option className="text-md text-indigo-800 px-2" value={"dsc"}>
-                high to low
-              </option>
-              <option className="text-md text-indigo-800 px-2" value={"asc"}>
-                low to high
-              </option>
-            </select>
-          </div>
+    <div className="flex flex-wrap items-center justify-center md:h-[10vh] space-y-4 md:space-y-0 md:space-x-4 font-tiltwrap">
+      {/* Sort button */}
+      <div className="relative ">
+        <div className=" flex items-center space-x-2 bg-gray-50 border border-gray-300 text-gray-900  text-sm rounded-xl p-2 px-4 focus:ring-2 focus:outline-none focus:ring-blue-300">
+          <p className="text-my-deeper-ocean">price:</p>
+          <select
+            onChange={sortHandler}
+            className="bg-transparent text-gray-800 text-sm focus:outline-none"
+          >
+            <option value="dsc">high to low</option>
+            <option value="asc">low to high</option>
+          </select>
         </div>
       </div>
-      {/* search button */}
-      <div className="relative">
+
+      {/* Search button */}
+      <div className="relative flex items-center">
         <div className="absolute inset-y-0 flex items-center pl-3 pointer-events-none">
           <SearchIcon />
         </div>
         <input
           type="text"
-          className=" text-gray-900 text-sm bg-white border border-gray-300 rounded-xl focus:ring-2 focus:outline-none focus:ring-blue-300 block pl-10 p-2"
+          className="ml-1 text-gray-900 text-sm bg-white border rounded-xl focus:ring-2 focus:outline-none focus:ring-blue-300 pl-8 py-2"
           placeholder="Search"
           onKeyDown={searchHandler}
         />
       </div>
+
       {/* Choose author */}
-      <div className="ml-2 bg-gray-50 border border-gray-300 text-gray-900  text-sm rounded-xl p-2 px-2 focus:ring-2 focus:outline-none focus:ring-blue-300 block">
+      <div className="relative">
         <select
           onChange={selectAuthorHandler}
-          className="focus:outline-none bg-transparent ml-1 px-1 inline font-tiltwrap text-my-deeper-ocean"
+          className="bg-gray-50 text-my-deeper-ocean text-sm focus:outline-none border rounded-xl focus:ring-2 focus:ring-blue-300 pl-2 py-2 "
         >
-          <option defaultValue disabled className="">
+          <option value="" disabled>
             Choose Author
           </option>
           {authors.map((author) => (
-            <option
-              key={author._id}
-              value={author.name}
-              className="text-md text-my-deeper-ocean px-2 py-4"
-            >
+            <option key={author._id} value={author.name}>
               {author.name}
             </option>
           ))}
         </select>
       </div>
-      {/* choose genres */}
+
+      {/* Choose genres */}
       <div className="px-2 font-tiltwrap text-my-deeper-ocean ">
         <button
           className="inline-flex items-center px-4 py-2 text-sm text-center bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:outline-none focus:ring-blue-300"
@@ -137,17 +130,15 @@ function FilterBar({ authors, genres, setFilter }) {
           </div>
         </div>
       </div>
-      <div className=" group px-1 py-1 box-border font-tiltwrap text-my-deeper-ocean rounded-xl ">
+
+      {/* Clear Filters button */}
+      <div className="group">
         <button
           onClick={clearFilterHandler}
-          className="text-md  flex content-center text-center font-medium hover:underline  "
+          className="flex items-center text-md font-medium text-my-deeper-ocean hover:underline"
         >
-          <TrashIcon
-            className={
-              "fill-my-deeper-ocean group-hover:fill-orange-500 stroke-2"
-            }
-          />
-          <div className="group-hover:text-orange-500">Clear Filters</div>
+          <TrashIcon className="fill-my-deeper-ocean group-hover:fill-orange-500 stroke-2" />
+          <div className="group-hover:text-orange-500 ml-1">Clear Filters</div>
         </button>
       </div>
     </div>

@@ -52,7 +52,7 @@ function EBooks({ authors, genres, ebooks, pagination }) {
       <FilterBar authors={authors} genres={genres} setFilter={setFilter} />
       <FilterResultBar filters={filters} />
       <div
-        className={` bg-no-repeat bg-center bg-contain  ${
+        className={` py-4 bg-no-repeat bg-center bg-contain  ${
           ebooks[0] ? "bg-my-bg " : "bg-my-bg-discount"
         } `}
       >

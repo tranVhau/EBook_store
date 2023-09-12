@@ -3,7 +3,7 @@ import axiosClient from "./axiosClient";
 const authAPIs = {
   me: async () => {
     try {
-      const url = "http://localhost:8080/api/client/me";
+      const url = "/me";
       const response = await axiosClient.get(url, {
         withCredentials: true,
       });
@@ -15,7 +15,7 @@ const authAPIs = {
 
   login: async (user) => {
     try {
-      const url = "http://localhost:8080/api/client/login";
+      const url = "/login";
       const response = await axiosClient.post(url, user, {
         withCredentials: true,
       });
@@ -35,7 +35,7 @@ const authAPIs = {
   },
   logout: async () => {
     try {
-      const url = "http://localhost:8080/api/client/logout";
+      const url = "/logout";
       return await axiosClient.post(url, null, { withCredentials: true });
     } catch (error) {
       throw error;
@@ -43,8 +43,8 @@ const authAPIs = {
   },
   refresh: async () => {
     try {
-      const url = "http://localhost:8080/api/client/refresh";
-      return await axiosClient.post(url, null, { withCredentials: true });
+      const url = "/refresh";
+      return await axiosClient.post(url, null);
     } catch (error) {
       throw error;
     }

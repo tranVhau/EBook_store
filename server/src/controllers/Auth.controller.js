@@ -70,9 +70,9 @@ const login = async (req, res) => {
         // store accesstoken in cookie
         res.cookie("accessToken", accessToken, {
           maxAge: process.env.COOKIE_AGE * 1000,
-          // domain: process.env.CLIENT_DOMAIN,
+          domain: process.env.CLIENT_DOMAIN,
           path: "/",
-          sameSite: "lax",
+          // sameSite: "none",
           httpOnly: true,
         });
         const { password, created_at, updated_at, ...login_info } = user._doc;
@@ -121,14 +121,14 @@ const refresh = async (req, res) => {
             domain: process.env.CLIENT_DOMAIN,
             path: "/",
             httpOnly: true,
-            sameSite: "lax",
+            // sameSite: "none",
           });
 
           res.cookie("accessToken", newRefreshToken, {
             domain: process.env.CLIENT_DOMAIN,
             path: "/",
             httpOnly: true,
-            sameSite: "lax",
+            // sameSite: "none",
           });
 
           res.status(200).json({ message: "token refreshed" });
@@ -152,8 +152,16 @@ const logout = async (req, res) => {
           async (error, result) => {
             if (result) {
               await Tokens.deleteOne({ token: tokenField.token });
-              res.clearCookie("refreshToken");
-              res.clearCookie("accessToken");
+              res.clearCookie("refreshToken", {
+                domain: process.env.CLIENT_DOMAIN,
+                path: "/",
+                httpOnly: true,
+              });
+              res.clearCookie("accessToken", {
+                domain: process.env.CLIENT_DOMAIN,
+                path: "/",
+                httpOnly: true,
+              });
               res.status(200).json({ message: "logout successfully" });
             } else {
               if (index + 1 === tokenLength) {
@@ -170,10 +178,19 @@ const logout = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+const forgot = async (req, res) => {
+  const { email } = req.body;
+  try {
+    // res.status(201).json(email);
+    res.send("123");
+  } catch (error) {}
+};
 module.exports = {
   me,
   login,
   register,
   refresh,
   logout,
+  forgot,
 };

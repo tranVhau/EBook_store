@@ -68,11 +68,10 @@ function Checkout() {
             <div className="my-4  ">
               <label className=" mb-1">email (required):</label>
               <input
-                onChange={getEmailHandler}
+                onKeyUp={getEmailHandler}
                 name="email"
                 type="email"
-                value={currUser ? emailCustomer : undefined}
-                placeholder="email@email.com"
+                placeholder={emailCustomer}
                 className="block text-sm py-3 px-3 my-2 rounded-2xl w-full border bg-slate-200 border-gray-400 "
               ></input>
             </div>
@@ -81,7 +80,7 @@ function Checkout() {
               <input
                 type={"text"}
                 onChange={() => {}}
-                value={currUser ? currUser?.phone : undefined}
+                value={currUser?.phone ? currUser?.phone : undefined}
                 placeholder={"0123 456 789"}
                 className="block text-sm py-3 px-3 my-2 rounded-2xl w-full border bg-slate-200 border-gray-400 "
               ></input>
@@ -122,7 +121,7 @@ function Checkout() {
                 <ButtonWrapper
                   currency="USD"
                   showSpinner={true}
-                  emailCustomer={emailCustomer}
+                  emailCustomer={emailCustomer || currUser?.email}
                   user_id={currUser?._id || null}
                 />
               </PayPalScriptProvider>

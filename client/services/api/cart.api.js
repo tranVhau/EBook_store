@@ -21,7 +21,7 @@ const cartAPIs = {
 
   dropCart: async (id) => {
     const url = `/cart/drop/${id}`;
-    const response = await axiosClient.delete(url.info);
+    const response = await axiosClient.delete(url, { withCredentials: true });
     return response.data;
   },
 };

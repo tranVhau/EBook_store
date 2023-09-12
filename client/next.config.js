@@ -9,6 +9,13 @@ module.exports = {
   images: {
     domains: ["res.cloudinary.com", "images.unsplash.com"],
   },
+  serverRuntimeConfig: {
+    apiUrl: process.env.BACKEND_API_URL,
+  },
+  publicRuntimeConfig: {
+    apiUrl: process.env.NEXT_PUBLIC_BACKEND_API_URL,
+  },
+
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/i,
@@ -17,3 +24,7 @@ module.exports = {
     return config;
   },
 };
+
+// module.exports = {
+
+// };

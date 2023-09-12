@@ -5,4 +5,5 @@ const PaymentRouter = require("./_Payment.route");
 
 module.exports = (app) => {
   app.use("/api/client", [EBookRouter, AuthRouter, CartRouter, PaymentRouter]);
+  app.use("/", (req, res) => res.send("ONLINE EBOOK APIs"));
 };

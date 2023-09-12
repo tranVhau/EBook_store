@@ -1,10 +1,19 @@
 import axios from "axios";
 import store from "@/store";
 import { refresh } from "@/store/features/actions/auth.action";
-// import { refresh } from "@/store/features/actions/auth.action";
+
+import getConfig from "next/config";
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
+const apiUrl = serverRuntimeConfig.apiUrl || publicRuntimeConfig.apiUrl;
+
+console.log("server: ", serverRuntimeConfig.apiUrl);
+console.log("public: ", publicRuntimeConfig.apiUrl);
+console.log("MY ENV >>>", apiUrl);
 
 const axiosClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_API_URL,
+  // baseURL:
+  // process.env.NEXT_PUBLIC_BACKEND_API_URL || process.env.BACKEND_API_URL,
+  baseURL: apiUrl,
   withCredentials: true,
 });
 

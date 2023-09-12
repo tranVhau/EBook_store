@@ -49,7 +49,7 @@ const storeRefreshRoken = async (newRefreshToken, userID, res) => {
     domain: process.env.CLIENT_DOMAIN,
     path: "/",
     httpOnly: true,
-    sameSite: "lax",
+    // sameSite: "none",
   });
 };
 

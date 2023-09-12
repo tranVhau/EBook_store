@@ -60,6 +60,7 @@ const authSlice = createSlice({
       state.currUser = null;
       state.isOpenModal = false;
       state.isLogedIn = false;
+      localStorage.clear();
       Notifies.success("See you soon 😭", undefined, undefined);
     });
     builder.addCase(logout.rejected, (state, action) => {

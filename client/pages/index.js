@@ -8,7 +8,7 @@ import ShowMoreIcon from "../public/svgs/show-more.svg";
 import ebookAPIs from "@/services/api/ebook.api";
 import Link from "next/link";
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const topDiscountEbook = await ebookAPIs.getEbooks({
     discount: true,
     limit: 14,
@@ -30,12 +30,8 @@ export default function Home({ ebooks }) {
   };
   return (
     <>
-      {/* Introduce Panel  */}
-      {/* <Carousel /> */}
       {/* Introduce */}
-
       <IntroduceSection scrollToDiscountHandler={scrollToDiscountHandler} />
-
       {/* Discount List */}
       <div ref={discountSectionRef}>
         <DiscountCarousel ebooks={ebooks.slice(0, 6)} />

@@ -31,7 +31,7 @@ function Authentication() {
   };
 
   return (
-    <div className="w-full text-my-deep-ocean">
+    <div className="w-full text-my-deep-ocean select-none">
       <div
         onClick={openAuthModalHandler}
         className={`fixed top-0 left-0 w-full h-full bg-slate-900 z-30 ${
@@ -39,7 +39,7 @@ function Authentication() {
         } duration-500`}
       ></div>
       <div
-        className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-1/4 sm:1/2 w-2/3 font-tiltwrap min-h-screen flex justify-center items-center z-50 ${
+        className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:w-1/4 sm:1/2 w-2/3 font-tiltwrap flex justify-center items-center z-50 ${
           isOpenAuthHandler ? "" : "translate-y-full"
         } duration-500`}
       >

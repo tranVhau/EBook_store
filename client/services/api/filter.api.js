@@ -1,7 +1,6 @@
 import axiosClient from "./axiosClient";
 
 //fetch all filter options  (genres, authors)
-
 const filterAPIs = {
   getAuthors: async () => {
     const url = "/authors";

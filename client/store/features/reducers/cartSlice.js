@@ -97,6 +97,12 @@ const cartSlice = createSlice({
       state.total = action.payload.subtotal;
       state.totalDiscount = action.payload.totalDiscount;
     });
+    //drop
+    builder.addCase(dropCart.fulfilled, (state, action) => {
+      state.cartItems = [];
+      state.total = 0;
+      state.totalDiscount = 0;
+    });
   },
 });
 

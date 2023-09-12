@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PDFSection from "@/components/product/PDFSection";
 import DiscountIcon from "@/public/svgs/discount.svg";
 import moment from "moment";

@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
-import { store, persistor } from "@/store";
+import { store, persistor } from "@/store/index";
 import { PersistGate } from "redux-persist/integration/react";
 import { ToastContainer } from "react-toastify";
 import Layout from "../components/layout/Layout";
